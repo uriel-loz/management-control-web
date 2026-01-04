@@ -1,0 +1,169 @@
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.left-panel {
+  width: 50%;
+  background: linear-gradient(135deg, #0060ff 0%, #0048cc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: white;
+
+  .content {
+    max-width: 560px;
+  }
+
+  .logo-icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+  }
+
+  .title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .description {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+  }
+
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.125rem;
+
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+.right-panel {
+  width: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+
+  .form-container {
+    width: 100%;
+    max-width: 450px;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+  }
+
+  .login-form {
+    .full-width {
+      width: 100%;
+    }
+
+    mat-form-field {
+      margin-bottom: 0.5rem;
+
+      ::ng-deep {
+        .mat-mdc-text-field-wrapper {
+          background-color: white;
+        }
+
+        .mat-mdc-form-field-focus-overlay {
+          background-color: transparent;
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      margin-top: 0.5rem;
+
+      .forgot-password {
+        color: #0060ff;
+        text-decoration: none;
+        font-size: 0.875rem;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .submit-button {
+      width: 100%;
+      height: 48px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .left-panel,
+  .right-panel {
+    width: 100%;
+  }
+
+  .left-panel {
+    padding: 2rem;
+    min-height: 40vh;
+
+    .title {
+      font-size: 2.5rem;
+    }
+
+    .description {
+      font-size: 1rem;
+    }
+
+    .features {
+      .feature-item {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .right-panel {
+    padding: 2rem;
+  }
+}
