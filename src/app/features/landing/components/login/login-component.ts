@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'landing-login',
@@ -22,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './login-component.scss',
 })
 export class LoginComponent {
+  private authService = inject(AuthService);
   loginForm: FormGroup;
   hidePassword = true;
 
@@ -35,7 +37,17 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      console.log('Form submitted:', this.loginForm.value);
+      const { email, password } = this.loginForm.value;
+      
+      this.authService.onLogin(email, password)
+        .subscribe({
+          next: (response) => {
+            console.log(response);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
     }
   }
 
@@ -53,3 +65,4 @@ export class LoginComponent {
     return '';
   }
 }
+
