@@ -13,7 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   onLogin(email: string, password: string): Observable<Login> {
-    return this.http.post<Login>(`${this.baseUrl}/auth/session-login`, { email, password });
+    return this.http.post<Login>(`${this.baseUrl}/auth/login`, { email, password });
   }
 
 }
