@@ -1,0 +1,52 @@
+<aside class="mat-sidenav">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <i class="material-symbols-outlined">dashboard_customize</i>
+    </div>
+    <h1 class="sidebar-title">ENTERPRISE</h1>
+  </div>
+
+  <nav class="mat-nav-list">
+    <div class="mat-list-subheader">Control Panel</div>
+    <a class="mat-list-item active" routerLink="/dashboard" routerLinkActive="active">
+      <i class="material-symbols-outlined">bar_chart</i>
+      Graphics
+    </a>
+
+    <div class="mat-list-subheader">Administration</div>
+    <a class="mat-list-item" routerLink="/users">
+      <i class="material-symbols-outlined">group</i>
+      Users
+    </a>
+    <a class="mat-list-item" routerLink="/roles">
+      <i class="material-symbols-outlined">admin_panel_settings</i>
+      Roles
+    </a>
+    <a class="mat-list-item" routerLink="/notifications">
+      <i class="material-symbols-outlined">notifications</i>
+      Notifications
+    </a>
+
+    <div class="mat-list-subheader">Operations</div>
+    <a class="mat-list-item" routerLink="/products">
+      <i class="material-symbols-outlined">inventory_2</i>
+      Products
+    </a>
+    <a class="mat-list-item" routerLink="/orders">
+      <i class="material-symbols-outlined">shopping_cart</i>
+      Orders
+    </a>
+    <a class="mat-list-item" routerLink="/sales">
+      <i class="material-symbols-outlined">trending_up</i>
+      Sales
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a class="mat-list-item" routerLink="/settings" style="padding: 12px 8px; margin-bottom: 8px">
+      <i class="material-symbols-outlined">settings</i>
+      Settings
+    </a>
+    <layout-user-profile/>
+  </div>
+</aside>
