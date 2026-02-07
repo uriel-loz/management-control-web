@@ -6,16 +6,14 @@ export interface Login {
 }
 
 export interface Data {
-    user: User;
+    user:  User;
 }
 
 export interface User {
-    id:                number;
+    id:                string;
     name:              string;
     email:             string;
     phone:             string;
-    email_verified_at: Date;
     created_at:        Date;
     updated_at:        Date;
-    deleted_at:        null;
 }

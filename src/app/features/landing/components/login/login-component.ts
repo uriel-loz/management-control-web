@@ -6,7 +6,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
+import { finalize } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'landing-login',
@@ -17,15 +21,20 @@ import { AuthService } from '../../services/auth.service';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './login-component.html',
   styleUrl: './login-component.scss',
 })
 export class LoginComponent {
   private authService = inject(AuthService);
+  private snackbarService = inject(SnackbarService);
+  private router = inject(Router);
+
   loginForm: FormGroup;
   hidePassword = true;
+  isLoading = false;
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -36,16 +45,27 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
+    if (this.loginForm.valid && !this.isLoading) {
       const { email, password } = this.loginForm.value;
       
+      this.isLoading = true;
+      
       this.authService.onLogin(email, password)
+        .pipe(
+          finalize(() => this.isLoading = false)
+        )
         .subscribe({
           next: (response) => {
-            console.log(response);
+            this.snackbarService.success('Inicio de sesión exitoso');
+
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            
+            this.router.navigate(['/dashboard/home']);
           },
           error: (error) => {
-            console.log(error);
+            const errorMessage = error.error?.message || 'Error al iniciar sesión. Verifica tus credenciales.';
+            this.snackbarService.error(errorMessage);
+            console.error(error);
           }
         });
     }

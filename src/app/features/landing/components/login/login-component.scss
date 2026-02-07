@@ -131,6 +131,17 @@
       letter-spacing: 0.5px;
       background-color: #0060ff;
       color: white;
+
+      .loading-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+
+        .loading-text {
+          margin-left: 0.5rem;
+        }
+      }
     }
   }
 }

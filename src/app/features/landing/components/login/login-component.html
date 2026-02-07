@@ -73,9 +73,13 @@
           color="primary"
           type="submit"
           class="submit-button"
-          [disabled]="loginForm.invalid"
+          [disabled]="loginForm.invalid || isLoading"
         >
-          Iniciar Sesión
+          <span *ngIf="!isLoading">Iniciar Sesión</span>
+          <span *ngIf="isLoading" class="loading-container">
+            <mat-spinner diameter="20" color="accent"></mat-spinner>
+            <span class="loading-text">Iniciando sesión...</span>
+          </span>
         </button>
       </form>
     </div>

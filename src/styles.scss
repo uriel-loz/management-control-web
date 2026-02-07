@@ -395,3 +395,19 @@ html {
     'GRAD' 0,
     'opsz' 24;
 }
+
+// Remover el borde negro del contenedor de SnackBar
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-shape: 4px;
+  
+  .mdc-snackbar__surface {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  .mat-mdc-snack-bar-label {
+    padding: 0 !important;
+  }
+}
+
