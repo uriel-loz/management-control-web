@@ -29,6 +29,10 @@ export class AuthService {
   }
 
   onLogout(): Observable<ApiResponseNoData> {
-    return this.http.post<ApiResponseNoData>(`${this.baseUrl}/api/v1/auth/logout`, {});
+    return this.getCsrfCookie().pipe(
+      switchMap(() => {
+        return this.http.post<ApiResponseNoData>(`${this.baseUrl}/api/v1/auth/logout`, {});
+      })
+    );
   }
 }
