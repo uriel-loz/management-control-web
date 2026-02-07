@@ -1,12 +1,11 @@
 <header class="mat-toolbar">
   <div class="search-container">
     <i class="material-symbols-outlined search-icon">search</i>
-    <!-- <input 
+    <input 
       class="search-input" 
       placeholder="Search orders, users, or reports..." 
       type="text"
-      [(ngModel)]="searchQuery"
-      (input)="onSearch()"/> -->
+    />
   </div>
 
   <div class="toolbar-actions">
@@ -17,9 +16,33 @@
       <i class="material-symbols-outlined">help</i>
     </button>
     <div style="width: 1px; height: 32px; background: var(--border-color); margin: 0 8px;"></div>
-    <button class="mat-raised-button">
-      <i class="material-symbols-outlined">add</i>
-      New Report
-    </button>
+    <div class="user-menu">
+      <button class="user-menu-button" (click)="toggleUserMenu()">
+        <div class="user-avatar">
+          <i class="material-symbols-outlined">account_circle</i>
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{ currentUser?.name || 'Usuario' }}</span>
+          <span class="user-email">{{ currentUser?.email || 'email@example.com' }}</span>
+        </div>
+        <i class="material-symbols-outlined">{{ isMenuOpen ? 'expand_less' : 'expand_more' }}</i>
+      </button>
+      
+      @if (isMenuOpen) {
+        <div class="user-dropdown">
+          <div class="dropdown-header">
+            <div class="dropdown-user-info">
+              <span class="dropdown-name">{{ currentUser?.name }}</span>
+              <span class="dropdown-email">{{ currentUser?.email }}</span>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item logout-item" (click)="onLogout()">
+            <i class="material-symbols-outlined">logout</i>
+            <span>Cerrar sesión</span>
+          </button>
+        </div>
+      }
+    </div>
   </div>
 </header>

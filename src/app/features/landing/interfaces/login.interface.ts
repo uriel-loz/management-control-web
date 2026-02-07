@@ -1,13 +1,4 @@
-export interface Login {
-    code:    number;
-    status:  string;
-    message: string;
-    data:    Data;
-}
-
-export interface Data {
-    user:  User;
-}
+import { ApiResponse } from '../../../core/interfaces/api-response.interface';
 
 export interface User {
     id:                string;
@@ -17,3 +8,8 @@ export interface User {
     created_at:        Date;
     updated_at:        Date;
 }
+export interface LoginData {
+    user: User;
+}
+
+export type LoginResponse = ApiResponse<LoginData>;
