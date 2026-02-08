@@ -28,6 +28,10 @@ export class AuthService {
     );
   }
 
+  isAuthenticated(): Observable<ApiResponseNoData> {
+    return this.http.get<ApiResponseNoData>(`${this.baseUrl}/api/v1/auth/check`);
+  }
+
   onLogout(): Observable<ApiResponseNoData> {
     return this.getCsrfCookie().pipe(
       switchMap(() => {
