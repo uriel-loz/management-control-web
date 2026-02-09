@@ -34,9 +34,11 @@
           <mat-label>Correo electrónico</mat-label>
           <input matInput type="email" formControlName="email" placeholder="nombre@empresa.com" />
           <mat-icon matPrefix>mail</mat-icon>
-          <mat-error *ngIf="loginForm.get('email')?.invalid">
-            {{ getErrorMessage('email') }}
-          </mat-error>
+          @if (loginForm.get('email')?.invalid) {
+            <mat-error>
+              {{ getErrorMessage('email') }}
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
@@ -58,9 +60,11 @@
           >
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <mat-error *ngIf="loginForm.get('password')?.invalid">
-            {{ getErrorMessage('password') }}
-          </mat-error>
+          @if (loginForm.get('password')?.invalid) {
+            <mat-error>
+              {{ getErrorMessage('password') }}
+            </mat-error>
+          }
         </mat-form-field>
 
         <div class="form-actions">
@@ -73,13 +77,16 @@
           color="primary"
           type="submit"
           class="submit-button"
-          [disabled]="loginForm.invalid || isLoading"
+          [disabled]="loginForm.invalid || isLoading()"
         >
-          <span *ngIf="!isLoading">Iniciar Sesión</span>
-          <span *ngIf="isLoading" class="loading-container">
-            <mat-spinner diameter="20" color="accent"></mat-spinner>
-            <span class="loading-text">Iniciando sesión...</span>
-          </span>
+          @if (!isLoading()) {
+            <span>Iniciar Sesión</span>
+          } @else {
+            <span class="loading-container">
+              <mat-spinner diameter="20" color="accent"></mat-spinner>
+              <span class="loading-text">Iniciando sesión...</span>
+            </span>
+          }
         </button>
       </form>
     </div>

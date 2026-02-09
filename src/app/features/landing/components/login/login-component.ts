@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -9,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { finalize } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -34,7 +33,7 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   hidePassword = true;
-  isLoading = false;
+  isLoading = signal(false);
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -45,24 +44,21 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid && !this.isLoading) {
+    if (this.loginForm.valid && !this.isLoading()) {
       const { email, password } = this.loginForm.value;
-      
-      this.isLoading = true;
-      
+
+      this.isLoading.set(true);
+
       this.authService.onLogin(email, password)
-        .pipe(
-          finalize(() => this.isLoading = false)
-        )
         .subscribe({
           next: (response) => {
+            this.isLoading.set(false);
             this.snackbarService.success('Inicio de sesión exitoso');
-
             localStorage.setItem('user', JSON.stringify(response.data.user));
-            
             this.router.navigate(['/dashboard/home']);
           },
           error: (error) => {
+            this.isLoading.set(false);
             const errorMessage = error.error?.message || 'Error al iniciar sesión. Verifica tus credenciales.';
             this.snackbarService.error(errorMessage);
             console.error(error);
