@@ -23,8 +23,8 @@ import { Router } from '@angular/router';
     MatCheckboxModule,
     MatProgressSpinnerModule
   ],
-  templateUrl: './login-component.html',
-  styleUrl: './login-component.scss',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   private authService = inject(AuthService);

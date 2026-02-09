@@ -7,8 +7,8 @@ import { User } from '../../../../features/landing/interfaces/login.interface';
 @Component({
   selector: 'layout-header',
   imports: [],
-  templateUrl: './header.html',
-  styleUrl: './header.scss',
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
 })
 export class Header implements OnInit {
   private authService = inject(AuthService);
