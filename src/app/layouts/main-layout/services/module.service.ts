@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environments';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Section } from '../interfaces/modules.interfaces';
+import { ModulesResponse } from '../interfaces/modules.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class ModuleService {
 
   constructor(private http: HttpClient) {}
 
-  getModulesByUser(): Observable<Section[]> {
-    return this.http.get<Section[]>(`${this.baseUrl}/api/v1/admin/modules/user`);
+  getModulesByUser(): Observable<ModulesResponse> {
+    return this.http.get<ModulesResponse>(`${this.baseUrl}/api/v1/admin/modules/user`);
   }
 }

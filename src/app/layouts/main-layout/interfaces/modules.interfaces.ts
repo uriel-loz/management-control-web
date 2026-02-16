@@ -15,6 +15,7 @@ export interface Module {
     id:          string;
     name:        string;
     slug:        string;
+    icon:        string;
     order:       number;
     section_id:  string;
     created_at:  null;
