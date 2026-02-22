@@ -1,0 +1,16 @@
+.roles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.buttons-row {
+  display: flex;
+  gap: 12px;
+}
