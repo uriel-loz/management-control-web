@@ -1,11 +1,18 @@
-@for (section of sectionsModules(); track section.id) {
-    <h4>{{ section.name }}</h4>
+@for (section of sectionsModules(); track section.id; let last = $last) {
+  <div class="section-block">
+    <h4 class="section-title">{{ section.name }}</h4>
     @for (module of section.modules; track module.id) {
-        <p>{{ module.name }}</p>
-        <section>
-            @for (permission of module.permissions || []; track permission.id) {
-                <mat-checkbox>{{ permission.name }}</mat-checkbox>
-            }
-        </section>
+      <div class="module-block">
+        <p class="module-name">{{ module.name }}</p>
+        <div class="permissions-grid">
+          @for (permission of module.permissions || []; track permission.id) {
+            <mat-checkbox>{{ permission.name }}</mat-checkbox>
+          }
+        </div>
+      </div>
     }
+  </div>
+  @if (!last) {
+    <mat-divider class="section-divider" />
+  }
 }

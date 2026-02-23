@@ -5,29 +5,62 @@
       <p>Administra los roles y permisos de los usuarios</p>
     </div>
   </div>
-  <mat-card class="example-card" appearance="outlined">
+  <mat-card appearance="outlined">
     <mat-card-content>
       <form>
         <div class="roles-grid">
+          <!-- Columna izquierda -->
           <div class="left-column">
             <h3>Selecciona un rol</h3>
             <roles-select-role />
+
+            @if (stateService.selectedRole(); as role) {
+              <div class="role-metadata">
+                <div class="metadata-item">
+                  <mat-icon>calendar_today</mat-icon>
+                  <span class="metadata-label">Creado</span>
+                  <span class="metadata-value">{{ role.created_at | date: 'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="metadata-item">
+                  <mat-icon>lock</mat-icon>
+                  <span class="metadata-label">Permisos asignados</span>
+                  <span class="metadata-value">{{ stateService.permissionsCount() }}</span>
+                </div>
+                <div class="metadata-item">
+                  <mat-icon>people</mat-icon>
+                  <span class="metadata-label">Usuarios con este rol</span>
+                  <span class="metadata-value">{{ role.users_count ?? '—' }}</span>
+                </div>
+              </div>
+            }
+
             <div class="buttons-row">
               <roles-create-role />
-              <roles-delete-role />
+              @if (stateService.selectedRole()) {
+                <roles-delete-role />
+              }
             </div>
           </div>
-          <div class="right-column">
-            <h3>Permisos</h3>
-            <div class="buttons-row">
-              <roles-check-all />
-              <roles-uncheck-all />
+
+          <!-- Divider vertical -->
+          <mat-divider [vertical]="true" class="column-divider" />
+
+          <!-- Columna derecha -->
+          @if (stateService.selectedRole()) {
+            <div class="right-column">
+              <h3>Permisos</h3>
+              <div class="buttons-row">
+                <roles-check-all />
+                <roles-uncheck-all />
+              </div>
+              <div class="permissions-scroll">
+                <roles-permissions />
+              </div>
+              <div class="save-row">
+                <roles-save-roles />
+              </div>
             </div>
-            <roles-permissions />
-            <div class="save-row">
-              <roles-save-roles />
-            </div>
-          </div>
+          }
         </div>
       </form>
     </mat-card-content>

@@ -1,12 +1,13 @@
 import { ApiResponse } from "../../../../../core/interfaces/api-response.interface";
 
 export interface Roles {
-    id:          string;
-    name:        string;
-    created_at:  Date;
-    updated_at:  Date;
-    deleted_at:  null;
-    permissions: Permission[];
+    id:           string;
+    name:         string;
+    created_at:   Date;
+    updated_at:   Date;
+    deleted_at:   null;
+    permissions:  Permission[];
+    users_count?: number;
 }
 
 export interface Permission {
