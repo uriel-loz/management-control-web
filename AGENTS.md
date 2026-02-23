@@ -194,6 +194,22 @@ this.service.doSomething().subscribe({
 - `inlineStyleLanguage` is `scss`; do not use plain CSS files.
 - Angular Material theming is applied globally — use Material design tokens where possible.
 
+### Button conventions
+
+- **Confirmation / primary action buttons** (e.g. "Guardar", "Crear", "Marcar todos") must always
+  use the following CSS, either via a shared class or the component's own `.scss`:
+
+  ```scss
+  background-color: #0643f9 !important;
+  color: #fff !important;
+  ```
+
+  Do **not** use `color="primary"` from Angular Material for these buttons — it resolves to the
+  Material theme palette color, which differs from the project's brand blue (`#0643f9`).
+
+- **Secondary / destructive buttons** (e.g. "Cancelar", "Eliminar", "Desmarcar todos") use
+  `mat-stroked-button` with the brand color applied to `color` and `border-color`.
+
 ---
 
 ## Testing

@@ -1,0 +1,11 @@
+@for (section of sectionsModules(); track section.id) {
+    <h4>{{ section.name }}</h4>
+    @for (module of section.modules; track module.id) {
+        <p>{{ module.name }}</p>
+        <section>
+            @for (permission of module.permissions || []; track permission.id) {
+                <mat-checkbox>{{ permission.name }}</mat-checkbox>
+            }
+        </section>
+    }
+}

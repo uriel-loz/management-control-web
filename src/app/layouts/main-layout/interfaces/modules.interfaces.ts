@@ -20,6 +20,15 @@ export interface Module {
     section_id:  string;
     created_at:  null;
     updated_at:  null;
+    permissions?: Permission[];
+}
+
+export interface Permission {
+    id:          string;
+    name:        string;
+    module_id:   string;
+    created_at:  null;
+    updated_at:  null;
 }
 
 export type ModulesResponse = ApiResponse<Section[]>;

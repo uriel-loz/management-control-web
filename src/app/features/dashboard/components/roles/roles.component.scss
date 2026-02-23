@@ -14,3 +14,20 @@
   display: flex;
   gap: 12px;
 }
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .buttons-row {
+    gap: 16px;
+    justify-content: space-between;
+  }
+}
+
+.save-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -6,6 +6,5 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [MatButtonModule],
   templateUrl: './create-role.component.html',
   styleUrl: './create-role.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateRole {}
+export class CreateRole { }

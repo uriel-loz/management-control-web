@@ -10,13 +10,24 @@
       <form>
         <div class="roles-grid">
           <div class="left-column">
-            <roles-select-role/>
+            <h3>Selecciona un rol</h3>
+            <roles-select-role />
             <div class="buttons-row">
-              <roles-create-role/>
-              <roles-delete-role/>
+              <roles-create-role />
+              <roles-delete-role />
             </div>
           </div>
-          <div class="right-column"></div>
+          <div class="right-column">
+            <h3>Permisos</h3>
+            <div class="buttons-row">
+              <roles-check-all />
+              <roles-uncheck-all />
+            </div>
+            <roles-permissions />
+            <div class="save-row">
+              <roles-save-roles />
+            </div>
+          </div>
         </div>
       </form>
     </mat-card-content>
