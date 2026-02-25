@@ -6,13 +6,16 @@ import { Permission, Roles } from '../interfaces/roles.interfaces';
 })
 export class RolesStateService {
   readonly selectedRole = signal<Roles | null>(null);
-  permissions = signal<Permission[]>([]);
+  readonly permissions = signal<Permission[]>([]);
+  readonly allPermissions = signal<Permission[]>([]);
   readonly permissionsCount = computed(() => this.permissions().length);
-
-  // readonly selectedRoleId = computed(() => this.selectedRole()?.id ?? null);
 
   selectRole(role: Roles | null): void {
     this.selectedRole.set(role);
     this.permissions.set(role?.permissions ?? []);
+  }
+
+  setAllPermissions(permissions: Permission[]): void {
+    this.allPermissions.set(permissions);
   }
 }

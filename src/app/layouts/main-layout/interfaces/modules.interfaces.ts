@@ -1,4 +1,5 @@
 import { ApiResponse } from "../../../core/interfaces/api-response.interface";
+import { Permission } from "../../../features/dashboard/components/roles/interfaces/roles.interfaces";
 
 export interface Section {
     id:          string;
@@ -21,14 +22,6 @@ export interface Module {
     created_at:  null;
     updated_at:  null;
     permissions?: Permission[];
-}
-
-export interface Permission {
-    id:          string;
-    name:        string;
-    module_id:   string;
-    created_at:  null;
-    updated_at:  null;
 }
 
 export type ModulesResponse = ApiResponse<Section[]>;

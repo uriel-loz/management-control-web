@@ -24,9 +24,6 @@ export class SelectRole {
   onRoleChange(event: MatSelectChange): void {
     const select = this.roles()?.find(role => role.id === event.value) ?? null;
 
-    console.log(select);
-    
-
     this.stateService.selectRole(select);
   }
 }
