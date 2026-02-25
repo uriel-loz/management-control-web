@@ -19,7 +19,7 @@
                 <div class="metadata-item">
                   <mat-icon>calendar_today</mat-icon>
                   <span class="metadata-label">Creado</span>
-                  <span class="metadata-value">{{ role.created_at | date: 'dd/MM/yyyy' }}</span>
+                  <span class="metadata-value">{{ role.created_at.toString().substring(0, 10) }}</span>
                 </div>
                 <div class="metadata-item">
                   <mat-icon>lock</mat-icon>
@@ -29,7 +29,7 @@
                 <div class="metadata-item">
                   <mat-icon>people</mat-icon>
                   <span class="metadata-label">Usuarios con este rol</span>
-                  <span class="metadata-value">{{ role.users_count ?? '—' }}</span>
+                  <span class="metadata-value">{{ role.quantity_users ?? '—' }}</span>
                 </div>
               </div>
             }

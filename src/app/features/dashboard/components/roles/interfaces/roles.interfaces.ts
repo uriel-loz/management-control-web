@@ -7,7 +7,7 @@ export interface Roles {
     updated_at:   Date;
     deleted_at:   null;
     permissions:  Permission[];
-    users_count?: number;
+    quantity_users?: number;
 }
 
 export interface Permission {

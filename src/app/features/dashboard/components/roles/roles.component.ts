@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +14,6 @@ import { RolesStateService } from './services/roles-state.service';
 @Component({
   selector: 'dashboard-roles',
   imports: [
-    DatePipe,
     MatCardModule,
     MatDividerModule,
     MatIconModule,
