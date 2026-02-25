@@ -6,7 +6,9 @@
         <p class="module-name">{{ module.name }}</p>
         <div class="permissions-grid">
           @for (permission of module.permissions || []; track permission.id) {
-            <mat-checkbox>{{ permission.name }}</mat-checkbox>
+            <mat-checkbox
+              [checked]="isChecked(permission.id)"
+            >{{ permission.name }}</mat-checkbox>
           }
         </div>
       </div>
