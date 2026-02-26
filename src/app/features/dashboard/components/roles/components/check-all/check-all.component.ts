@@ -12,8 +12,6 @@ export class CheckAll {
   private rolesStateService = inject(RolesStateService);
 
   checkAll() {
-    // this.rolesStateService.permissions.set(
-    //   this.rolesStateService.permissions().map(p => ({ ...p, checked: true }))
-    // );
+    this.rolesStateService.checkAll();
   }
 }

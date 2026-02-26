@@ -18,4 +18,12 @@ export class RolesStateService {
   setAllPermissions(permissions: Permission[]): void {
     this.allPermissions.set(permissions);
   }
+  
+  uncheckAll(): void {
+    this.permissions.set([]);
+  }
+
+  checkAll(): void {
+    this.permissions.set(this.allPermissions());
+  }
 }
