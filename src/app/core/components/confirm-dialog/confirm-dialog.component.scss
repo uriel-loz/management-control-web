@@ -1,0 +1,22 @@
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.warning-icon {
+  color: #f59e0b;
+}
+
+.dialog-message {
+  color: var(--mat-sys-on-surface-variant, #444);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 380px;
+}
+
+.confirm-btn {
+  background-color: #e53935 !important;
+  color: #fff !important;
+}

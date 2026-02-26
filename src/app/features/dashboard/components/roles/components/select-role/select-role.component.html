@@ -1,6 +1,11 @@
 <mat-form-field>
   <mat-label>-- Elige una opción --</mat-label>
-  <mat-select name="role" id="role" (selectionChange)="onRoleChange($event)">
+  <mat-select
+    name="role"
+    id="role"
+    [value]="stateService.selectedRole()?.id"
+    (selectionChange)="onRoleChange($event)"
+  >
     @for (role of roles(); track role.id) {
       <mat-option [value]="role.id">{{ role.name }}</mat-option>
     }

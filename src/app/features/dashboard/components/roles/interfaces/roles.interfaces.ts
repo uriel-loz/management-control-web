@@ -6,7 +6,7 @@ export interface Roles {
     created_at:   Date;
     updated_at:   Date;
     deleted_at:   null;
-    permissions:  Permission[];
+    permissions?:  Permission[];
     quantity_users?: number;
 }
 
@@ -31,3 +31,9 @@ export interface Pivot {
 }
 
 export type RolesResponse = ApiResponse<Roles[]>;
+export type SingleRoleResponse = ApiResponse<Roles>;
+
+export interface SaveRoleRequest {
+    role: string;
+    modules?: string[];
+}

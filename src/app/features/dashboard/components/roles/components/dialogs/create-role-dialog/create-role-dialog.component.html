@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Crear nuevo rol</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nombre del rol</mat-label>
+    <input
+      matInput
+      [formControl]="roleNameControl"
+      placeholder="Ej: Administrador"
+      autocomplete="off"
+    />
+    @if (roleNameControl.hasError('required')) {
+      <mat-error>El nombre del rol es requerido.</mat-error>
+    } @else if (roleNameControl.hasError('minlength')) {
+      <mat-error>El nombre debe tener al menos 2 caracteres.</mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" (click)="cancel()" [disabled]="isLoading()">
+    Cancelar
+  </button>
+  <button
+    mat-raised-button
+    class="create-btn"
+    type="button"
+    (click)="save()"
+    [disabled]="isLoading()"
+  >
+    {{ isLoading() ? 'Creando...' : 'Crear' }}
+  </button>
+</mat-dialog-actions>

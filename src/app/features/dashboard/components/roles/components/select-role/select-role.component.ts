@@ -1,8 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, inject } from '@angular/core';
 import { MatSelectModule, MatSelectChange } from '@angular/material/select';
-import { map } from 'rxjs';
-import { ApiService } from '../../services/api.service';
 import { RolesStateService } from '../../services/roles-state.service';
 import { Roles } from '../../interfaces/roles.interfaces';
 
@@ -13,17 +10,12 @@ import { Roles } from '../../interfaces/roles.interfaces';
   styleUrl: './select-role.component.scss',
 })
 export class SelectRole {
-  private readonly apiService = inject(ApiService);
   readonly stateService = inject(RolesStateService);
 
-  roles = toSignal(
-    this.apiService.getRoles().pipe(map(response => response.data)),
-    { initialValue: null }
-  );
+  readonly roles = computed(() => this.stateService.rolesResource.value() ?? []);
 
   onRoleChange(event: MatSelectChange): void {
-    const select = this.roles()?.find(role => role.id === event.value) ?? null;
-
+    const select = this.roles().find((role: Roles) => role.id === event.value) ?? null;
     this.stateService.selectRole(select);
   }
 }
