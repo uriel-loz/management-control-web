@@ -15,7 +15,8 @@ export class SelectRole {
   readonly roles = computed(() => this.stateService.rolesResource.value() ?? []);
 
   onRoleChange(event: MatSelectChange): void {
-    const select = this.roles().find((role: Roles) => role.id === event.value) ?? null;
+    this.stateService.uncheckAll();
+    const select = this.roles().find((role: Roles) => role.id === event.value) ?? {} as Roles;
     this.stateService.selectRole(select);
   }
 }

@@ -25,6 +25,10 @@ export class ApiService {
     return this.http.post<SingleRoleResponse>(`${this.baseUrl}/api/v1/admin/roles`, roleRequest);
   }
 
+  setRolePermissions(roleId: string, modules: string[]): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/api/v1/admin/roles/${roleId}`, {modules});
+  }
+
   deleteRole(roleId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/api/v1/admin/roles/${roleId}`);
   }

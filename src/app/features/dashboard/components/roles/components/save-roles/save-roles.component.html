@@ -2,6 +2,8 @@
     mat-raised-button 
     class="save-roles-btn"
     type="button"
+    [disabled]="isLoading()"
+    (click)="onSubmit()"
 >
-    Guardar
+    {{ isLoading() ? 'Guardando...' : 'Guardar' }}
 </button>

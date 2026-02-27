@@ -4,11 +4,13 @@
     @for (module of section.modules; track module.id) {
       <div class="module-block">
         <p class="module-name">{{ module.name }}</p>
-        <div class="permissions-grid">
+        <div class="permissions-grid" id="{{ module.id }}">
           @for (permission of module.permissions || []; track permission.id) {
             <mat-checkbox
               [checked]="isChecked(permission.id)"
-            >{{ permission.name }}</mat-checkbox>
+              (change)="onPermissionToggle(permission.id, $event.checked, module.permissions || [])"
+            >{{ permission.name }}
+            </mat-checkbox>
           }
         </div>
       </div>

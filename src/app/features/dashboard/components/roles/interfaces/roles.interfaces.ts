@@ -13,6 +13,7 @@ export interface Roles {
 export interface Permission {
     id:        string;
     name:      string;
+    slug:      string;
     module_id: string;
     pivot:     Pivot;
     module:    Module;
@@ -32,8 +33,9 @@ export interface Pivot {
 
 export type RolesResponse = ApiResponse<Roles[]>;
 export type SingleRoleResponse = ApiResponse<Roles>;
+export type PermissionsIds = string;
 
 export interface SaveRoleRequest {
     role: string;
-    modules?: string[];
+    modules?: PermissionsIds[];
 }

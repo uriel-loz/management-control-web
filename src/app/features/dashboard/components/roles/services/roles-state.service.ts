@@ -2,7 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { ApiService } from './api.service';
-import { Permission, Roles } from '../interfaces/roles.interfaces';
+import { Permission, PermissionsIds, Roles } from '../interfaces/roles.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -14,17 +14,20 @@ export class RolesStateService {
     stream: () => this.apiService.getRoles().pipe(map((response) => response.data)),
   });
 
-  readonly selectedRole = signal<Roles | null>(null);
-  readonly permissions = signal<Permission[]>([]);
-  readonly allPermissions = signal<Permission[]>([]);
+  readonly selectedRole = signal<Roles | null  >(null);
+  readonly permissions = signal<PermissionsIds[]>([]);
+  readonly allPermissions = signal<PermissionsIds[]>([]);
   readonly permissionsCount = computed(() => this.permissions().length);
 
-  selectRole(role: Roles | null): void {
+  selectRole(role: Roles | null): void {  
     this.selectedRole.set(role);
-    this.permissions.set(role?.permissions ?? []);
+
+    if (!role?.permissions?.length) return;
+
+    this.permissions.set(role.permissions.map(p => p.id) ?? []);
   }
 
-  setAllPermissions(permissions: Permission[]): void {
+  setAllPermissions(permissions: PermissionsIds[]): void {
     this.allPermissions.set(permissions);
   }
 
