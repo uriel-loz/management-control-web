@@ -1,0 +1,23 @@
+<div class="dialog-wrapper">
+  <!-- Contenido principal -->
+  <div class="dialog-body">
+    <!-- Icono con halo -->
+    <div class="icon-container">
+      <div class="icon-halo"></div>
+      <div class="icon-circle">
+        <mat-icon class="error-icon">error</mat-icon>
+      </div>
+    </div>
+
+    <!-- Texto -->
+    <h2 class="dialog-title">Ha ocurrido un error</h2>
+    <p class="dialog-message">{{ data.message }}</p>
+  </div>
+
+  <!-- Footer con botón -->
+  <div class="dialog-footer">
+    <button mat-flat-button class="close-btn" (click)="close()">
+      Cerrar
+    </button>
+  </div>
+</div>

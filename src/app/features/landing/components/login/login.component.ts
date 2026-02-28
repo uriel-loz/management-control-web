@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
-import { SnackbarService } from '../../../../core/services/snackbar.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
-  private snackbarService = inject(SnackbarService);
+  private snackbarService = inject(NotificationService);
   private router = inject(Router);
 
   loginForm: FormGroup;
@@ -53,7 +53,6 @@ export class LoginComponent {
         .subscribe({
           next: (response) => {
             this.isLoading.set(false);
-            this.snackbarService.success('Inicio de sesión exitoso');
             localStorage.setItem('user', JSON.stringify(response.data.user));
             this.router.navigate(['/dashboard/home']);
           },

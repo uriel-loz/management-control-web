@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../features/landing/services/auth.service';
-import { SnackbarService } from '../../../../core/services/snackbar.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 import { User } from '../../../../features/landing/interfaces/login.interface';
 
 @Component({
@@ -13,7 +13,6 @@ import { User } from '../../../../features/landing/interfaces/login.interface';
 export class Header implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
-  private snackbarService = inject(SnackbarService);
 
   currentUser: User | null = null;
   isMenuOpen = false;
@@ -43,7 +42,6 @@ export class Header implements OnInit {
     this.authService.onLogout().subscribe({
       next: () => {
         localStorage.clear();
-        this.snackbarService.success('Sesión cerrada exitosamente');
         this.router.navigate(['']);
       },
       error: (error) => {

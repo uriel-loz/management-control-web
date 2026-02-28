@@ -396,18 +396,18 @@ html {
     'opsz' 24;
 }
 
-// Remover el borde negro del contenedor de SnackBar
-.mat-mdc-snack-bar-container {
-  --mdc-snackbar-container-shape: 4px;
-  
-  .mdc-snackbar__surface {
-    background: transparent !important;
-    box-shadow: none !important;
+// Dialogs de notificación (success / error) — quitar padding del contenedor
+.notification-dialog-panel {
+  .mat-mdc-dialog-container {
     padding: 0 !important;
-  }
-  
-  .mat-mdc-snack-bar-label {
-    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+
+    .mdc-dialog__surface {
+      border-radius: 12px !important;
+      padding: 0 !important;
+      overflow: hidden;
+    }
   }
 }
 

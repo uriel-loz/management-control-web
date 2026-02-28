@@ -5,7 +5,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ApiService } from '../../../services/api.service';
-import { SnackbarService } from '../../../../../../../core/services/snackbar.service';
+import { NotificationService } from '../../../../../../../core/services/notification.service';
 import { RolesStateService } from '../../../services/roles-state.service';
 import { SingleRoleResponse } from '../../../interfaces/roles.interfaces';
 
@@ -25,7 +25,7 @@ export class CreateRoleDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<CreateRoleDialogComponent>);
   private readonly apiService = inject(ApiService);
   private readonly rolesStateService = inject(RolesStateService);
-  private readonly snackbarService = inject(SnackbarService);
+  private readonly snackbarService = inject(NotificationService);
   readonly roles = computed(() => this.rolesStateService.rolesResource.value() ?? []);
 
   readonly isLoading = signal(false);

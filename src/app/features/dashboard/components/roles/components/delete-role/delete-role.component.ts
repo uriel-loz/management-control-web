@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../../../../core/components/confirm-dialog/confirm-dialog.component';
 import { ApiService } from '../../services/api.service';
 import { RolesStateService } from '../../services/roles-state.service';
-import { SnackbarService } from '../../../../../../core/services/snackbar.service';
+import { NotificationService } from '../../../../../../core/services/notification.service';
 
 @Component({
   selector: 'roles-delete-role',
@@ -16,7 +16,7 @@ export class DeleteRole {
   private readonly dialog = inject(MatDialog);
   private readonly apiService = inject(ApiService);
   private readonly stateService = inject(RolesStateService);
-  private readonly snackbarService = inject(SnackbarService);
+  private readonly snackbarService = inject(NotificationService);
 
   openConfirmDialog(): void {
     this.dialog

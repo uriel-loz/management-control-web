@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RolesStateService } from '../../services/roles-state.service';
 import { ApiService } from '../../services/api.service';
-import { SnackbarService } from '../../../../../../core/services/snackbar.service';
+import { NotificationService } from '../../../../../../core/services/notification.service';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -13,7 +13,7 @@ import { finalize } from 'rxjs';
 })
 export class SaveRoles {
   private rolesStateService = inject(RolesStateService);
-  private readonly snackbarService = inject(SnackbarService);
+  private readonly snackbarService = inject(NotificationService);
   private apiService = inject(ApiService);
 
   readonly isLoading = signal(false);

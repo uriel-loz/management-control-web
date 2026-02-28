@@ -1,0 +1,24 @@
+<div class="dialog-wrapper">
+  <!-- Botón cerrar -->
+  <button class="close-btn" mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <!-- Header con gradiente e icono -->
+  <div class="dialog-header">
+    <div class="dot-pattern"></div>
+    <div class="icon-circle">
+      <mat-icon class="check-icon">check_circle</mat-icon>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="dialog-content">
+    <h2 class="dialog-title">¡Operación Exitosa!</h2>
+    <p class="dialog-message">{{ data.message }}</p>
+
+    <button mat-flat-button class="continue-btn" (click)="close()">
+      Continuar
+    </button>
+  </div>
+</div>
