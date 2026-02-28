@@ -20,7 +20,7 @@ export class DeleteRole {
 
   openConfirmDialog(): void {
     this.dialog
-      .open(ConfirmDialogComponent)
+      .open(ConfirmDialogComponent, { panelClass: 'notification-dialog-panel' })
       .afterClosed()
       .subscribe({
         next: (confirmed: boolean) => {

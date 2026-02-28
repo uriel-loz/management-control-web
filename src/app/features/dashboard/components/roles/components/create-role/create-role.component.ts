@@ -38,6 +38,7 @@ export class CreateRole {
             )
             .subscribe({
               next: () => {
+                this.stateService.uncheckAll();
                 const select = this.roles().find((role: Roles) => role.id === createdId) ?? null;
                 this.stateService.selectRole(select);
               },

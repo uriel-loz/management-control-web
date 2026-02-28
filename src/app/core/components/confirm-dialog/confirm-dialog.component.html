@@ -1,15 +1,30 @@
-<h2 mat-dialog-title class="dialog-title">
-  <mat-icon class="warning-icon">warning_amber</mat-icon>
-  {{ title }}
-</h2>
-
-<mat-dialog-content>
-  <p class="dialog-message">{{ message }}</p>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-  <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
-  <button mat-raised-button class="confirm-btn" type="button" (click)="confirm()">
-    Confirmar
+<div class="dialog-wrapper">
+  <!-- Botón cerrar -->
+  <button class="close-btn" mat-icon-button (click)="cancel()">
+    <mat-icon>close</mat-icon>
   </button>
-</mat-dialog-actions>
+
+  <!-- Header con gradiente y icono de advertencia -->
+  <div class="dialog-header">
+    <div class="dot-pattern"></div>
+    <div class="icon-circle">
+      <mat-icon class="warning-icon">warning_amber</mat-icon>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="dialog-body">
+    <h2 class="dialog-title">{{ title }}</h2>
+    <p class="dialog-message">{{ message }}</p>
+  </div>
+
+  <!-- Footer con acciones -->
+  <div class="dialog-footer">
+    <button mat-stroked-button class="cancel-btn" type="button" (click)="cancel()">
+      Cancelar
+    </button>
+    <button mat-flat-button class="confirm-btn" type="button" (click)="confirm()">
+      Confirmar
+    </button>
+  </div>
+</div>

@@ -1,22 +1,121 @@
-.dialog-title {
+.dialog-wrapper {
+  position: relative;
+  width: 440px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+// Botón X en la esquina del header
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.35) !important;
+  }
+}
+
+// Header con gradiente ámbar/naranja para distinguirlo de success/error
+.dialog-header {
+  position: relative;
+  height: 160px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  background: linear-gradient(135deg, #0643f9 0%, #1d4ed8 100%);
+}
+
+.dot-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.icon-circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .warning-icon {
-  color: #f59e0b;
+  color: #fff;
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+// Cuerpo de texto
+.dialog-body {
+  padding: 28px 32px 20px;
+  text-align: center;
+}
+
+.dialog-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 10px;
+  line-height: 1.3;
 }
 
 .dialog-message {
-  color: var(--mat-sys-on-surface-variant, #444);
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.65;
+  color: #475569;
   margin: 0;
-  max-width: 380px;
+}
+
+// Footer con los botones
+.dialog-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 32px 28px;
+  background-color: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+}
+
+.cancel-btn {
+  min-width: 120px;
+  height: 44px;
+  font-weight: 600;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #f1f5f9 !important;
+  }
 }
 
 .confirm-btn {
-  background-color: #e53935 !important;
+  min-width: 120px;
+  height: 44px;
+  background-color: #0643f9 !important;
   color: #fff !important;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(6, 67, 249, 0.3);
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 }
