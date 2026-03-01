@@ -1,0 +1,13 @@
+<div style="display: flex; flex-direction: column; overflow: hidden">
+    <div class="page-header" style="flex-shrink: 0">
+        <div>
+            <h2>{{ title }}</h2>
+            <p>{{ description }}</p>
+        </div>
+    </div>
+    <mat-card appearance="outlined">
+        <mat-card-content>
+            <ng-content />
+        </mat-card-content>
+    </mat-card>
+</div>

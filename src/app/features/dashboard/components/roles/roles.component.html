@@ -1,69 +1,61 @@
-<div style="display: flex; flex-direction: column; overflow: hidden">
-  <div class="page-header" style="flex-shrink: 0">
-    <div>
-      <h2>Roles y permisos</h2>
-      <p>Administra los roles y permisos de los usuarios</p>
-    </div>
-  </div>
-  <mat-card appearance="outlined">
-    <mat-card-content>
-      <form>
-        <div class="roles-grid">
-          <!-- Columna izquierda -->
-          <div class="left-column">
-            <h3>Selecciona un rol</h3>
-            <roles-select-role />
+<core-card-structure 
+  title="Roles y permisos" 
+  description="Administra los roles y permisos de los usuarios"
+>
+  <form>
+    <div class="roles-grid">
+      <!-- Columna izquierda -->
+      <div class="left-column">
+        <h3>Selecciona un rol</h3>
+        <roles-select-role />
 
-            @if (stateService.selectedRole(); as role) {
-              <div class="role-metadata">
-                <div class="metadata-item">
-                  <mat-icon>calendar_today</mat-icon>
-                  <span class="metadata-label">Creado</span>
-                  <span class="metadata-value">{{ role.created_at.toString().substring(0, 10) }}</span>
-                </div>
-                <div class="metadata-item">
-                  <mat-icon>lock</mat-icon>
-                  <span class="metadata-label">Permisos asignados</span>
-                  <span class="metadata-value">{{ stateService.permissionsCount() }}</span>
-                </div>
-                <div class="metadata-item">
-                  <mat-icon>people</mat-icon>
-                  <span class="metadata-label">Usuarios con este rol</span>
-                  <span class="metadata-value">{{ role.quantity_users ?? '—' }}</span>
-                </div>
-              </div>
-            }
-
-            <div class="buttons-row">
-              @if (stateService.selectedRole()) {
-                <roles-delete-role />
-              }
-
-              <roles-create-role />
+        @if (stateService.selectedRole(); as role) {
+          <div class="role-metadata">
+            <div class="metadata-item">
+              <mat-icon>calendar_today</mat-icon>
+              <span class="metadata-label">Creado</span>
+              <span class="metadata-value">{{ role.created_at.toString().substring(0, 10) }}</span>
+            </div>
+            <div class="metadata-item">
+              <mat-icon>lock</mat-icon>
+              <span class="metadata-label">Permisos asignados</span>
+              <span class="metadata-value">{{ stateService.permissionsCount() }}</span>
+            </div>
+            <div class="metadata-item">
+              <mat-icon>people</mat-icon>
+              <span class="metadata-label">Usuarios con este rol</span>
+              <span class="metadata-value">{{ role.quantity_users ?? '—' }}</span>
             </div>
           </div>
+        }
 
-          <!-- Divider vertical -->
-          <mat-divider [vertical]="true" class="column-divider" />
-
-          <!-- Columna derecha -->
+        <div class="buttons-row">
           @if (stateService.selectedRole()) {
-            <div class="right-column">
-              <h3>Permisos</h3>
-              <div class="buttons-row">
-                <roles-uncheck-all />
-                <roles-check-all />
-              </div>
-              <div class="permissions-scroll">
-                <roles-permissions />
-              </div>
-              <div class="save-row">
-                <roles-save-roles />
-              </div>
-            </div>
+            <roles-delete-role />
           }
+          <roles-create-role />
         </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div>
+      </div>
+
+      <!-- Divider vertical -->
+      <mat-divider [vertical]="true" class="column-divider" />
+
+      <!-- Columna derecha -->
+      @if (stateService.selectedRole()) {
+        <div class="right-column">
+          <h3>Permisos</h3>
+          <div class="buttons-row">
+            <roles-uncheck-all />
+            <roles-check-all />
+          </div>
+          <div class="permissions-scroll">
+            <roles-permissions />
+          </div>
+          <div class="save-row">
+            <roles-save-roles />
+          </div>
+        </div>
+      }
+    </div>
+  </form>
+</core-card-structure>

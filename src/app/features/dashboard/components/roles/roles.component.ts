@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { SelectRole } from './components/select-role/select-role.component';
@@ -10,11 +9,12 @@ import { CheckAll } from './components/check-all/check-all.component';
 import { UncheckAll } from './components/uncheck-all/uncheck-all.component';
 import { SaveRoles } from './components/save-roles/save-roles.component';
 import { RolesStateService } from './services/roles-state.service';
+import { CardStructure } from '../../../../core/components/card-structure/card-structure.component';
 
 @Component({
   selector: 'dashboard-roles',
   imports: [
-    MatCardModule,
+    CardStructure,
     MatDividerModule,
     MatIconModule,
     SelectRole,
