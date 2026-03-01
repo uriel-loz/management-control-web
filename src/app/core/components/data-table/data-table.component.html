@@ -1,0 +1,69 @@
+<div class="table-actions">
+  <div class="actions-left">
+    <button mat-raised-button color="primary" (click)="onRefresh()">
+      <mat-icon>refresh</mat-icon>
+      Actualizar
+    </button>
+    <button mat-raised-button color="accent" (click)="exportToCsv()">
+      <mat-icon>file_download</mat-icon>
+      Exportar CSV
+    </button>
+  </div>
+  @if (showCreate) {
+    <button class="btn-create" mat-raised-button (click)="onCreate()">
+      <mat-icon>add</mat-icon>
+      {{ createLabel }}
+    </button>
+  }
+</div>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort
+         [matSortActive]="sortActive" [matSortDirection]="sortDirection">
+
+    <!-- Data columns -->
+    @for (col of columns; track col.key) {
+      <ng-container [matColumnDef]="col.key">
+        <th mat-header-cell *matHeaderCellDef
+            [mat-sort-header]="col.sortable !== false ? col.key : ''">
+          {{ col.header }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ (row)[col.key] }}
+        </td>
+      </ng-container>
+    }
+
+    <!-- Filter columns -->
+    @for (col of columns; track col.key) {
+      <ng-container [matColumnDef]="col.key + '-filter'">
+        <th mat-header-cell *matHeaderCellDef>
+          @if (col.filterable !== false) {
+            <div class="filter-input-wrapper">
+              <mat-icon class="filter-icon">search</mat-icon>
+              <input class="filter-input"
+                     [placeholder]="col.placeholder ?? col.header"
+                     [(ngModel)]="columnFilters[col.key]"
+                     (ngModelChange)="applyColumnFilter(col.key)">
+            </div>
+          }
+        </th>
+      </ng-container>
+    }
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns" class="filter-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+        No se encontraron resultados con los filtros aplicados.
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="pageSizeOptions"
+                 showFirstLastButtons
+                 aria-label="Seleccionar página">
+  </mat-paginator>
+</div>

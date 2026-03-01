@@ -1,0 +1,14 @@
+<core-card-structure 
+    title="Usuarios" 
+    description="Usuarios registrados en el sistema"
+>
+  <core-data-table
+    [columns]="columns"
+    [data]="data"
+    sortActive="name"
+    [showCreate]="true"
+    createLabel="Crear usuario"
+    (refresh)="onRefresh()"
+    (create)="onCreate()">
+  </core-data-table>
+</core-card-structure>

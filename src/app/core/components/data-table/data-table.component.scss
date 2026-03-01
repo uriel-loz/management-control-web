@@ -1,0 +1,177 @@
+// ── Acciones ──────────────────────────────────────────────────
+.table-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  button {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border-radius: 8px;
+    gap: 6px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.actions-left {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-create {
+  background-color: #0643f9 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(4, 54, 204, 0.35) !important;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
+
+  &:hover {
+    background-color: #032bb0 !important;
+    box-shadow: 0 6px 16px rgba(4, 54, 204, 0.45) !important;
+  }
+}
+
+// ── Contenedor principal ───────────────────────────────────────
+.mat-elevation-z8 {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(6, 67, 249, 0.1);
+  box-shadow:
+    0 4px 24px rgba(6, 67, 249, 0.08),
+    0 1px 6px rgba(0, 0, 0, 0.05) !important;
+
+  table {
+    width: 100%;
+  }
+}
+
+// ── Fila de cabeceras (títulos) ────────────────────────────────
+tr.mat-mdc-header-row:first-of-type {
+  background: linear-gradient(135deg, #0643f9 0%, #1e5cfc 100%);
+
+  th.mat-mdc-header-cell {
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    border-bottom: none;
+    padding: 14px 16px;
+  }
+}
+
+// Color de la flecha de ordenamiento
+:host ::ng-deep {
+  tr.mat-mdc-header-row:first-of-type {
+    .mat-sort-header-arrow {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .mat-sort-header-container:hover .mat-sort-header-arrow {
+      color: #ffffff;
+    }
+  }
+}
+
+// ── Fila de filtros ────────────────────────────────────────────
+tr.filter-row {
+  background-color: #eef1fd;
+
+  th.mat-mdc-header-cell {
+    padding: 8px 10px;
+    border-bottom: 2px solid rgba(6, 67, 249, 0.14);
+  }
+}
+
+.filter-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 6px 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus-within {
+    border-color: #0643f9;
+    box-shadow: 0 0 0 3px rgba(6, 67, 249, 0.15);
+  }
+
+  .filter-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #adb5bd;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
+
+  &:focus-within .filter-icon {
+    color: #0643f9;
+  }
+}
+
+.filter-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
+
+  &::placeholder {
+    color: #adb5bd;
+  }
+}
+
+// ── Filas de datos ─────────────────────────────────────────────
+tr.mat-mdc-row {
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:nth-child(odd) {
+    background-color: #ffffff;
+  }
+
+  &:nth-child(even) {
+    background-color: #f8f9ff;
+  }
+
+  &:hover {
+    background-color: #eef1fd !important;
+    box-shadow: inset 4px 0 0 var(--primary-blue);
+  }
+
+  td.mat-mdc-cell {
+    font-size: 14px;
+    color: var(--text-main);
+    padding: 13px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+}
+
+// ── Sin resultados ─────────────────────────────────────────────
+.no-data-cell {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 14px;
+}
+
+// ── Paginador ──────────────────────────────────────────────────
+:host ::ng-deep .mat-mdc-paginator {
+  background-color: #f4f6ff;
+  border-top: 1px solid rgba(6, 67, 249, 0.1);
+  border-radius: 0 0 12px 12px;
+  color: var(--text-muted);
+}
