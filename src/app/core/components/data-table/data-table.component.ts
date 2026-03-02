@@ -1,24 +1,50 @@
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+
 import { TableColumn } from '../../interfaces/table-column.interface';
+import { TableRow } from '../../interfaces/table-row.interface';
+
+export interface TablePageEvent {
+  page:     number; // 1-based
+  pageSize: number; // 0 = todos los registros
+}
+
+const ALL_PAGE_SIZE = 9999;
+
+function createPaginatorIntl(): MatPaginatorIntl {
+  const intl = new MatPaginatorIntl();
+  intl.itemsPerPageLabel = 'Registros por página:';
+  const baseRangeLabel = intl.getRangeLabel.bind(intl);
+  intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+    if (pageSize >= ALL_PAGE_SIZE) {
+      return `Todos los registros (${length})`;
+    }
+    return baseRangeLabel(page, pageSize, length);
+  };
+  return intl;
+}
 
 @Component({
   selector: 'core-data-table',
+  providers: [{ provide: MatPaginatorIntl, useFactory: createPaginatorIntl }],
   imports: [
     CommonModule,
     FormsModule,
@@ -31,48 +57,76 @@ import { TableColumn } from '../../interfaces/table-column.interface';
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.scss',
 })
-export class CoreDataTable implements AfterViewInit, OnChanges {
+export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChanges {
   @Input() columns: TableColumn[] = [];
-  @Input() data: unknown[] = [];
-  @Input() pageSizeOptions: number[] = [5, 10, 20];
+  @Input() data: T[] = [];
+  @Input() pageSizeOptions: number[] = [10, 50, 100];
   @Input() sortActive: string = '';
   @Input() sortDirection: 'asc' | 'desc' = 'asc';
   @Input() showCreate: boolean = false;
   @Input() createLabel: string = 'Crear';
+  @Input() serverSide: boolean = false;
+  @Input() total: number = 0;
+  @Input() showAllOption: boolean = false;
 
   @Output() refresh = new EventEmitter<void>();
   @Output() create = new EventEmitter<void>();
+  @Output() pageChange = new EventEmitter<TablePageEvent>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  dataSource = new MatTableDataSource<unknown>([]);
-
+  dataSource = new MatTableDataSource<T>([]);
   displayedColumns: string[] = [];
   filterColumns: string[] = [];
   columnFilters: Record<string, string> = {};
 
+  private readonly destroyRef = inject(DestroyRef);
+
+  get effectivePageSizeOptions(): number[] {
+    if (!this.showAllOption) return this.pageSizeOptions;
+    return [...this.pageSizeOptions, ALL_PAGE_SIZE];
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['columns']) {
       this.displayedColumns = this.columns.map(c => c.key);
-      this.filterColumns = this.columns.map(c => c.key + '-filter');
-      this.columnFilters = Object.fromEntries(this.columns.map(c => [c.key, '']));
+      this.filterColumns    = this.columns.map(c => c.key + '-filter');
+      this.columnFilters    = Object.fromEntries(this.columns.map(c => [c.key, '']));
     }
     if (changes['data']) {
       this.dataSource.data = this.data;
     }
+    if (changes['total'] && this.serverSide && this.paginator) {
+      this.paginator.length = this.total;
+    }
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = (row: unknown, filter: string) => {
+
+    if (this.serverSide) {
+      this.paginator.length = this.total;
+
+      this.paginator.page
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((event: PageEvent) => {
+          const isAll = event.pageSize >= ALL_PAGE_SIZE;
+          this.pageChange.emit({
+            page:     isAll ? 1 : event.pageIndex + 1,
+            pageSize: isAll ? 0 : event.pageSize,
+          });
+        });
+
+    } else {
+      this.dataSource.paginator = this.paginator;
+    }
+
+    this.dataSource.filterPredicate = (row: T, filter: string) => {
       const filters: Record<string, string> = JSON.parse(filter);
       return Object.entries(filters).every(([key, val]) => {
         if (!val) return true;
-        return String((row as Record<string, unknown>)[key])
-          .toLowerCase()
-          .includes(val.toLowerCase());
+        return String(row[key]).toLowerCase().includes(val.toLowerCase());
       });
     };
   }
@@ -94,7 +148,7 @@ export class CoreDataTable implements AfterViewInit, OnChanges {
 
   exportToCsv(): void {
     const headers = this.columns.map(c => c.header);
-    const rows = (this.dataSource.filteredData as Record<string, unknown>[]).map(row =>
+    const rows = this.dataSource.filteredData.map(row =>
       this.columns.map(c => row[c.key])
     );
 

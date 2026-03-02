@@ -1,14 +1,18 @@
-<core-card-structure 
-    title="Usuarios" 
+<core-card-structure
+    title="Usuarios"
     description="Usuarios registrados en el sistema"
 >
   <core-data-table
     [columns]="columns"
-    [data]="data"
+    [data]="data()"
+    [serverSide]="true"
+    [total]="total()"
+    [showAllOption]="true"
     sortActive="name"
     [showCreate]="true"
     createLabel="Crear usuario"
     (refresh)="onRefresh()"
-    (create)="onCreate()">
+    (create)="onCreate()"
+    (pageChange)="onPageChange($event)">
   </core-data-table>
 </core-card-structure>
