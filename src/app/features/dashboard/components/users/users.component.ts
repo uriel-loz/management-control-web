@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CardStructure } from '../../../../core/components/card-structure/card-structure.component';
 import { CoreDataTable, TablePageEvent, TableFilterEvent } from '../../../../core/components/data-table/data-table.component';
 import { TableColumn } from '../../../../core/interfaces/table-column.interface';
@@ -28,8 +28,9 @@ export class Users implements OnInit {
   private currentPage = 1;
   private pageSize    = 10;
   private filters: Record<string, string> = {};
+  private apiService = inject(ApiService);
 
-  constructor(private api: ApiService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -43,6 +44,8 @@ export class Users implements OnInit {
 
   onCreate(): void {
     // TODO: abrir dialog de creación
+    console.log('creation');
+    
   }
 
   onPageChange(event: TablePageEvent): void {
@@ -58,7 +61,7 @@ export class Users implements OnInit {
   }
 
   private loadUsers(): void {
-    this.api.getUsers(this.currentPage, this.pageSize, this.filters).subscribe(response => {
+    this.apiService.getUsers(this.currentPage, this.pageSize, this.filters).subscribe(response => {
       this.data.set(response.data);
       this.total.set(response.total);
     });

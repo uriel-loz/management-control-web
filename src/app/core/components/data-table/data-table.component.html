@@ -18,9 +18,13 @@
 </div>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort
-         [matSortActive]="sortActive" [matSortDirection]="sortDirection">
-
+  <table 
+    mat-table 
+    [dataSource]="dataSource" 
+    matSort
+    [matSortActive]="sortActive" 
+    [matSortDirection]="sortDirection"
+>
     <!-- Data columns -->
     @for (col of columns; track col.key) {
       <ng-container [matColumnDef]="col.key">
@@ -42,9 +46,10 @@
             <div class="filter-input-wrapper">
               <mat-icon class="filter-icon">search</mat-icon>
               <input class="filter-input"
-                     [placeholder]="col.placeholder ?? col.header"
-                     [(ngModel)]="columnFilters[col.key]"
-                     (ngModelChange)="applyColumnFilter(col.key)">
+                [placeholder]="col.placeholder ?? col.header"
+                [(ngModel)]="columnFilters[col.key]"
+                (ngModelChange)="applyColumnFilter(col.key)"
+              >
             </div>
           }
         </th>
@@ -62,8 +67,10 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="effectivePageSizeOptions"
-                 showFirstLastButtons
-                 aria-label="Seleccionar página">
+  <mat-paginator 
+    [pageSizeOptions]="effectivePageSizeOptions"
+    showFirstLastButtons
+    aria-label="Seleccionar página"
+  >
   </mat-paginator>
 </div>

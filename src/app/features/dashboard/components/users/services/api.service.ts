@@ -14,9 +14,8 @@ export class ApiService {
   getUsers(page: number = 1, perPage: number = 10, filters: Record<string, string> = {}) {
     const params: any = { page, per_page: perPage };
 
-    // Transform filters to filter[key] format
     Object.entries(filters).forEach(([key, value]) => {
-      params[`filter[${key}]`] = value;
+      params[`filters[${key}]`] = value;
     });
 
     return this.http.get<UserTable>(`${this.baseUrl}/api/v1/admin/users`, { params });
