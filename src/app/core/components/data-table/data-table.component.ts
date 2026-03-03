@@ -18,13 +18,19 @@ import { MatPaginator, MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { TableColumn } from '../../interfaces/table-column.interface';
 import { TableRow } from '../../interfaces/table-row.interface';
 
 export interface TablePageEvent {
-  page:     number; // 1-based
+  page: number; // 1-based
   pageSize: number; // 0 = todos los registros
+}
+
+export interface TableFilterEvent {
+  filters: Record<string, string>;
 }
 
 const ALL_PAGE_SIZE = 9999;
@@ -72,6 +78,7 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
   @Output() refresh = new EventEmitter<void>();
   @Output() create = new EventEmitter<void>();
   @Output() pageChange = new EventEmitter<TablePageEvent>();
+  @Output() filterChange = new EventEmitter<TableFilterEvent>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -82,6 +89,7 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
   columnFilters: Record<string, string> = {};
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly filterSubject = new Subject<void>();
 
   get effectivePageSizeOptions(): number[] {
     if (!this.showAllOption) return this.pageSizeOptions;
@@ -91,8 +99,8 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['columns']) {
       this.displayedColumns = this.columns.map(c => c.key);
-      this.filterColumns    = this.columns.map(c => c.key + '-filter');
-      this.columnFilters    = Object.fromEntries(this.columns.map(c => [c.key, '']));
+      this.filterColumns = this.columns.map(c => c.key + '-filter');
+      this.columnFilters = Object.fromEntries(this.columns.map(c => [c.key, '']));
     }
     if (changes['data']) {
       this.dataSource.data = this.data;
@@ -113,9 +121,23 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
         .subscribe((event: PageEvent) => {
           const isAll = event.pageSize >= ALL_PAGE_SIZE;
           this.pageChange.emit({
-            page:     isAll ? 1 : event.pageIndex + 1,
+            page: isAll ? 1 : event.pageIndex + 1,
             pageSize: isAll ? 0 : event.pageSize,
           });
+        });
+
+      // Setup filter debouncing for server-side mode
+      this.filterSubject
+        .pipe(
+          debounceTime(600),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe(() => {
+          // Remove empty filters before emitting
+          const activeFilters = Object.fromEntries(
+            Object.entries(this.columnFilters).filter(([_, value]) => value.trim() !== '')
+          );
+          this.filterChange.emit({ filters: activeFilters });
         });
 
     } else {
@@ -132,9 +154,15 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
   }
 
   applyColumnFilter(_column: string): void {
-    this.dataSource.filter = JSON.stringify(this.columnFilters);
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    if (this.serverSide) {
+      // Server-side: trigger debounced event emission
+      this.filterSubject.next();
+    } else {
+      // Client-side: apply filter locally
+      this.dataSource.filter = JSON.stringify(this.columnFilters);
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
     }
   }
 

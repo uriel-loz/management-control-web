@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CardStructure } from '../../../../core/components/card-structure/card-structure.component';
-import { CoreDataTable, TablePageEvent } from '../../../../core/components/data-table/data-table.component';
+import { CoreDataTable, TablePageEvent, TableFilterEvent } from '../../../../core/components/data-table/data-table.component';
 import { TableColumn } from '../../../../core/interfaces/table-column.interface';
 import { ApiService } from './services/api.service';
 import { User } from './interfaces/users-table.interface';
@@ -27,6 +27,7 @@ export class Users implements OnInit {
 
   private currentPage = 1;
   private pageSize    = 10;
+  private filters: Record<string, string> = {};
 
   constructor(private api: ApiService) {}
 
@@ -36,6 +37,7 @@ export class Users implements OnInit {
 
   onRefresh(): void {
     this.currentPage = 1;
+    this.filters = {};
     this.loadUsers();
   }
 
@@ -49,8 +51,14 @@ export class Users implements OnInit {
     this.loadUsers();
   }
 
+  onFilterChange(event: TableFilterEvent): void {
+    this.filters = event.filters;
+    this.currentPage = 1;
+    this.loadUsers();
+  }
+
   private loadUsers(): void {
-    this.api.getUsers(this.currentPage, this.pageSize).subscribe(response => {
+    this.api.getUsers(this.currentPage, this.pageSize, this.filters).subscribe(response => {
       this.data.set(response.data);
       this.total.set(response.total);
     });
