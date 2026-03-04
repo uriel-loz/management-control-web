@@ -165,6 +165,79 @@ tr.mat-mdc-row {
   }
 }
 
+// ── Columna de acciones ────────────────────────────────────────
+td.actions-cell {
+  white-space: nowrap;
+  padding: 8px 12px !important;
+}
+
+.action-btns {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.table-action-btn {
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease !important;
+
+  &[data-color='primary'] {
+    background-color: rgba(6, 67, 249, 0.1) !important;
+    color: #0643f9 !important;
+
+    &:hover {
+      background-color: rgba(6, 67, 249, 0.18) !important;
+      box-shadow: 0 2px 8px rgba(6, 67, 249, 0.28) !important;
+      transform: translateY(-1px);
+    }
+  }
+
+  &[data-color='warn'] {
+    background-color: rgba(211, 47, 47, 0.1) !important;
+    color: #d32f2f !important;
+
+    &:hover {
+      background-color: rgba(211, 47, 47, 0.18) !important;
+      box-shadow: 0 2px 8px rgba(211, 47, 47, 0.28) !important;
+      transform: translateY(-1px);
+    }
+  }
+
+  &[data-color='accent'] {
+    background-color: rgba(245, 124, 0, 0.1) !important;
+    color: #f57c00 !important;
+
+    &:hover {
+      background-color: rgba(245, 124, 0, 0.18) !important;
+      box-shadow: 0 2px 8px rgba(245, 124, 0, 0.28) !important;
+      transform: translateY(-1px);
+    }
+  }
+
+  ::ng-deep .mat-mdc-button-touch-target,
+  ::ng-deep .mat-mdc-focus-indicator {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  ::ng-deep .mat-icon {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
 // ── Sin resultados ─────────────────────────────────────────────
 .no-data-cell {
   text-align: center;

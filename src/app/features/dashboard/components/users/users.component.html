@@ -5,6 +5,7 @@
   <core-data-table
     [columns]="columns"
     [data]="data()"
+    [actions]="actions"
     [serverSide]="true"
     [total]="total()"
     [showAllOption]="true"
@@ -16,6 +17,9 @@
     (create)="onCreate()"
     (pageChange)="onPageChange($event)"
     (filterChange)="onFilterChange($event)"
-    (sortChange)="onSortChange($event)">
+    (sortChange)="onSortChange($event)"
+    (actionClick)="onAction($event)"
+    titleReport="{{ titleReport }}"
+  >
   </core-data-table>
 </core-card-structure>

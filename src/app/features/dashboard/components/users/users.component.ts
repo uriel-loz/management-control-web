@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CardStructure } from '../../../../core/components/card-structure/card-structure.component';
 import { CoreDataTable, TablePageEvent, TableFilterEvent, TableSortEvent } from '../../../../core/components/data-table/data-table.component';
 import { TableColumn } from '../../../../core/interfaces/table-column.interface';
+import { TableAction } from '../../../../core/interfaces/table-action.interface';
 import { ApiService } from './services/api.service';
 import { User } from './interfaces/users-table.interface';
 
@@ -12,12 +13,17 @@ import { User } from './interfaces/users-table.interface';
   styleUrl: './users.component.scss',
 })
 export class Users implements OnInit {
+  readonly actions: TableAction[] = [
+    { key: 'edit',   icon: 'edit',   tooltip: 'Editar',   color: 'primary' },
+    { key: 'delete', icon: 'delete', tooltip: 'Eliminar', color: 'warn'    },
+  ];
+
   readonly columns: TableColumn[] = [
     { key: 'name',       header: 'Nombre',      dbField: 'users.name' },
     { key: 'email',      header: 'Correo',       dbField: 'users.email' },
     { key: 'phone',      header: 'Teléfono',     dbField: 'users.phone' },
     { key: 'role',       header: 'Rol',          dbField: 'roles.name' },
-    { key: 'type',       header: 'Tipo',         dbField: 'users.is_customer', filterable: false },
+    { key: 'type',       header: 'Tipo',         dbField: 'users.is_customer'},
     { key: 'created_at', header: 'Creado',       dbField: 'users.created_at' },
     { key: 'updated_at', header: 'Actualizado',  dbField: 'users.updated_at' },
   ];
@@ -31,6 +37,7 @@ export class Users implements OnInit {
   private sortColumn  = 'users.updated_at';
   private sortDir: 'asc' | 'desc' = 'desc';
   private apiService = inject(ApiService);
+  titleReport = 'Reporte de Usuarios';
 
   constructor() {}
 
@@ -47,7 +54,19 @@ export class Users implements OnInit {
   onCreate(): void {
     // TODO: abrir dialog de creación
     console.log('creation');
-    
+  }
+
+  onAction(event: { action: string; row: User }): void {
+    switch (event.action) {
+      case 'edit':
+        // TODO: abrir dialog de edición
+        console.log('edit', event.row);
+        break;
+      case 'delete':
+        // TODO: abrir dialog de confirmación y eliminar
+        console.log('delete', event.row);
+        break;
+    }
   }
 
   onPageChange(event: TablePageEvent): void {

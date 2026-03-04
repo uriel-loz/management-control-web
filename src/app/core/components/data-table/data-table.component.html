@@ -39,6 +39,30 @@
       </ng-container>
     }
 
+    <!-- Actions column -->
+    @if (actions.length > 0) {
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Opciones</th>
+        <td mat-cell *matCellDef="let row" class="actions-cell">
+          <div class="action-btns">
+            @for (action of actions; track action.key) {
+              <button mat-icon-button
+                class="table-action-btn"
+                [attr.data-color]="action.color ?? 'primary'"
+                [matTooltip]="action.tooltip ?? ''"
+                matTooltipPosition="above"
+                (click)="onActionClick(action.key, row)">
+                <mat-icon>{{ action.icon }}</mat-icon>
+              </button>
+            }
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions-filter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+    }
+
     <!-- Filter columns -->
     @for (col of columns; track col.key) {
       <ng-container [matColumnDef]="col.key + '-filter'">

@@ -18,11 +18,13 @@ import { MatPaginator, MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { TableColumn } from '../../interfaces/table-column.interface';
 import { TableRow } from '../../interfaces/table-row.interface';
+import { TableAction } from '../../interfaces/table-action.interface';
 
 export interface TablePageEvent {
   page: number; // 1-based
@@ -64,6 +66,7 @@ function createPaginatorIntl(): MatPaginatorIntl {
     MatSortModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
   ],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.scss',
@@ -79,12 +82,15 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
   @Input() serverSide: boolean = false;
   @Input() total: number = 0;
   @Input() showAllOption: boolean = false;
+  @Input() actions: TableAction[] = [];
+  @Input() titleReport: string = '';
 
   @Output() refresh = new EventEmitter<void>();
   @Output() create = new EventEmitter<void>();
   @Output() pageChange = new EventEmitter<TablePageEvent>();
   @Output() filterChange = new EventEmitter<TableFilterEvent>();
   @Output() sortChange = new EventEmitter<TableSortEvent>();
+  @Output() actionClick = new EventEmitter<{ action: string; row: T }>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -104,11 +110,15 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['columns']) {
+    if (changes['columns'] || changes['actions']) {
       this.displayedColumns = this.columns.map(c => c.key);
       this.filterColumns = this.columns.map(c => c.key + '-filter');
       this.columnFilters = Object.fromEntries(this.columns.map(c => [c.key, '']));
       this.keyToDbField = Object.fromEntries(this.columns.map(c => [c.key, c.dbField ?? c.key]));
+      if (this.actions.length > 0) {
+        this.displayedColumns.unshift('actions');
+        this.filterColumns.unshift('actions-filter');
+      }
     }
     if (changes['data']) {
       this.dataSource.data = this.data;
@@ -190,6 +200,10 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
     this.create.emit();
   }
 
+  onActionClick(key: string, row: T): void {
+    this.actionClick.emit({ action: key, row });
+  }
+
   exportToCsv(): void {
     const headers = this.columns.map(c => c.header);
     const rows = this.dataSource.filteredData.map(row =>
@@ -204,7 +218,7 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = 'export.csv';
+    anchor.download = `${this.titleReport}.csv`;
     anchor.click();
     URL.revokeObjectURL(url);
   }
