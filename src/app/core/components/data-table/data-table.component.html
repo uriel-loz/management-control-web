@@ -18,7 +18,8 @@
 </div>
 
 <div class="mat-elevation-z8">
-  <table 
+  <div class="table-scroll-wrapper">
+  <table
     mat-table 
     [dataSource]="dataSource" 
     matSort
@@ -66,6 +67,7 @@
       </td>
     </tr>
   </table>
+  </div>
 
   <mat-paginator 
     [pageSizeOptions]="effectivePageSizeOptions"

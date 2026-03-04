@@ -8,12 +8,14 @@
     [serverSide]="true"
     [total]="total()"
     [showAllOption]="true"
-    sortActive="name"
+    sortActive="updated_at"
+    sortDirection="desc"
     [showCreate]="true"
     createLabel="Crear usuario"
     (refresh)="onRefresh()"
     (create)="onCreate()"
     (pageChange)="onPageChange($event)"
-    (filterChange)="onFilterChange($event)">
+    (filterChange)="onFilterChange($event)"
+    (sortChange)="onSortChange($event)">
   </core-data-table>
 </core-card-structure>

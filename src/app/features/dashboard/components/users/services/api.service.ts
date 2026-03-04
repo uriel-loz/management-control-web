@@ -11,8 +11,14 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(page: number = 1, perPage: number = 10, filters: Record<string, string> = {}) {
-    const params: any = { page, per_page: perPage };
+  getUsers(
+    page: number = 1,
+    perPage: number = 10,
+    filters: Record<string, string> = {},
+    sortBy: string = 'updated_at',
+    sortDir: string = 'desc'
+  ) {
+    const params: any = { page, per_page: perPage, orderBy: sortBy, order: sortDir };
 
     Object.entries(filters).forEach(([key, value]) => {
       params[`filters[${key}]`] = value;

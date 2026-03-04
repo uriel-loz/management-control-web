@@ -33,6 +33,11 @@ export interface TableFilterEvent {
   filters: Record<string, string>;
 }
 
+export interface TableSortEvent {
+  column: string;
+  direction: 'asc' | 'desc' | '';
+}
+
 const ALL_PAGE_SIZE = 9999;
 
 function createPaginatorIntl(): MatPaginatorIntl {
@@ -79,6 +84,7 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
   @Output() create = new EventEmitter<void>();
   @Output() pageChange = new EventEmitter<TablePageEvent>();
   @Output() filterChange = new EventEmitter<TableFilterEvent>();
+  @Output() sortChange = new EventEmitter<TableSortEvent>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -88,6 +94,7 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
   filterColumns: string[] = [];
   columnFilters: Record<string, string> = {};
 
+  private keyToDbField: Record<string, string> = {};
   private readonly destroyRef = inject(DestroyRef);
   private readonly filterSubject = new Subject<void>();
 
@@ -101,6 +108,7 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
       this.displayedColumns = this.columns.map(c => c.key);
       this.filterColumns = this.columns.map(c => c.key + '-filter');
       this.columnFilters = Object.fromEntries(this.columns.map(c => [c.key, '']));
+      this.keyToDbField = Object.fromEntries(this.columns.map(c => [c.key, c.dbField ?? c.key]));
     }
     if (changes['data']) {
       this.dataSource.data = this.data;
@@ -126,6 +134,13 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
           });
         });
 
+      this.sort.sortChange
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(sort => {
+          this.paginator.firstPage();
+          this.sortChange.emit({ column: this.keyToDbField[sort.active] ?? sort.active, direction: sort.direction });
+        });
+
       // Setup filter debouncing for server-side mode
       this.filterSubject
         .pipe(
@@ -133,9 +148,10 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
           takeUntilDestroyed(this.destroyRef)
         )
         .subscribe(() => {
-          // Remove empty filters before emitting
           const activeFilters = Object.fromEntries(
-            Object.entries(this.columnFilters).filter(([_, value]) => value.trim() !== '')
+            Object.entries(this.columnFilters)
+              .filter(([_, value]) => value.trim() !== '')
+              .map(([key, value]) => [this.keyToDbField[key] ?? key, value])
           );
           this.filterChange.emit({ filters: activeFilters });
         });

@@ -45,9 +45,15 @@
   box-shadow:
     0 4px 24px rgba(6, 67, 249, 0.08),
     0 1px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+.table-scroll-wrapper {
+  overflow-x: auto;
+  width: 100%;
 
   table {
     width: 100%;
+    min-width: 600px;
   }
 }
 
