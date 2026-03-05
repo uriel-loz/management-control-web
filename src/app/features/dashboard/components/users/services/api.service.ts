@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environments';
-import { UserTable } from '../interfaces/users-table.interface';
+import { UserTable, CreateUserRequest } from '../interfaces/users-table.interface';
+import { ApiResponseNoData } from '../../../../../core/interfaces/api-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,10 @@ export class ApiService {
     });
 
     return this.http.get<UserTable>(`${this.baseUrl}/api/v1/admin/users`, { params });
+  }
+
+  createUser(payload: CreateUserRequest): Observable<ApiResponseNoData> {
+    return this.http.post<ApiResponseNoData>(`${this.baseUrl}/api/v1/admin/users`, payload);
   }
 
 }

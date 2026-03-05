@@ -12,3 +12,12 @@ export interface User extends Record<string, string> {
 }
 
 export type UserTable = ResponseTable<User>;
+
+export interface CreateUserRequest {
+    name:        string;
+    email:       string;
+    phone:       string;
+    password:    string;
+    role_id:     string;
+    is_customer: number;
+}

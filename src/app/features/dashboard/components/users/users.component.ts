@@ -1,10 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CardStructure } from '../../../../core/components/card-structure/card-structure.component';
 import { CoreDataTable, TablePageEvent, TableFilterEvent, TableSortEvent } from '../../../../core/components/data-table/data-table.component';
 import { TableColumn } from '../../../../core/interfaces/table-column.interface';
 import { TableAction } from '../../../../core/interfaces/table-action.interface';
 import { ApiService } from './services/api.service';
 import { User } from './interfaces/users-table.interface';
+import { CreateUserDialogComponent } from './components/create-user-dialog/create-user-dialog.component';
 
 @Component({
   selector: 'dashboard-users',
@@ -37,6 +39,7 @@ export class Users implements OnInit {
   private sortColumn  = 'users.updated_at';
   private sortDir: 'asc' | 'desc' = 'desc';
   private apiService = inject(ApiService);
+  private dialog     = inject(MatDialog);
   titleReport = 'Reporte de Usuarios';
 
   constructor() {}
@@ -52,8 +55,11 @@ export class Users implements OnInit {
   }
 
   onCreate(): void {
-    // TODO: abrir dialog de creación
-    console.log('creation');
+    this.dialog.open(CreateUserDialogComponent).afterClosed().subscribe({
+      next: (created) => {
+        if (created) this.loadUsers();
+      }
+    });
   }
 
   onAction(event: { action: string; row: User }): void {

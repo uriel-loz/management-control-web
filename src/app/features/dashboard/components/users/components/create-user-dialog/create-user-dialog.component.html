@@ -1,0 +1,82 @@
+<h2 mat-dialog-title>Crear nuevo usuario</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="form-grid">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" placeholder="Ej: Juan Pérez" autocomplete="off" />
+      @if (form.get('name')!.hasError('required')) {
+        <mat-error>El nombre es requerido.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Correo electrónico</mat-label>
+      <input matInput formControlName="email" placeholder="Ej: juan@ejemplo.com" autocomplete="off" />
+      @if (form.get('email')!.hasError('required')) {
+        <mat-error>El correo es requerido.</mat-error>
+      } @else if (form.get('email')!.hasError('email')) {
+        <mat-error>Ingrese un correo válido.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="phone" placeholder="Ej: +1 234 567 8900" autocomplete="off" />
+      @if (form.get('phone')!.hasError('required')) {
+        <mat-error>El teléfono es requerido.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" formControlName="password" autocomplete="new-password" />
+      @if (form.get('password')!.hasError('required')) {
+        <mat-error>La contraseña es requerida.</mat-error>
+      } @else if (form.get('password')!.hasError('minlength')) {
+        <mat-error>La contraseña debe tener al menos 8 caracteres.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Rol</mat-label>
+      <mat-select formControlName="role_id">
+        @for (role of roles(); track role.id) {
+          <mat-option [value]="role.id">{{ role.name }}</mat-option>
+        }
+      </mat-select>
+      @if (form.get('role_id')!.hasError('required')) {
+        <mat-error>El rol es requerido.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo de usuario</mat-label>
+      <mat-select formControlName="is_customer">
+        @for (opt of customerOptions; track opt.value) {
+          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+        }
+      </mat-select>
+      @if (form.get('is_customer')!.hasError('required')) {
+        <mat-error>El tipo de usuario es requerido.</mat-error>
+      }
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" (click)="cancel()" [disabled]="isLoading()">
+    Cancelar
+  </button>
+  <button
+    mat-raised-button
+    class="create-btn"
+    type="button"
+    (click)="save()"
+    [disabled]="isLoading()"
+  >
+    {{ isLoading() ? 'Creando...' : 'Crear' }}
+  </button>
+</mat-dialog-actions>
