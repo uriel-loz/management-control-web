@@ -11,6 +11,7 @@
     letter-spacing: 0.3px;
     border-radius: 8px;
     gap: 6px;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
     mat-icon {
       font-size: 18px;
@@ -26,14 +27,14 @@
 }
 
 .btn-create {
-  background-color: #0643f9 !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(4, 54, 204, 0.35) !important;
+  background-color: #0b0f19 !important;
+  color: #f5f7f9 !important;
+  box-shadow: 0 4px 12px rgba(11, 15, 25, 0.25) !important;
   transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
 
   &:hover {
-    background-color: #032bb0 !important;
-    box-shadow: 0 6px 16px rgba(4, 54, 204, 0.45) !important;
+    background-color: #1a202c !important;
+    box-shadow: 0 6px 16px rgba(11, 15, 25, 0.35) !important;
   }
 }
 
@@ -41,10 +42,10 @@
 .mat-elevation-z8 {
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(6, 67, 249, 0.1);
+  border: 1px solid #eaecef;
   box-shadow:
-    0 4px 24px rgba(6, 67, 249, 0.08),
-    0 1px 6px rgba(0, 0, 0, 0.05) !important;
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.04) !important;
 }
 
 .table-scroll-wrapper {
@@ -59,7 +60,7 @@
 
 // ── Fila de cabeceras (títulos) ────────────────────────────────
 tr.mat-mdc-header-row:first-of-type {
-  background: linear-gradient(135deg, #0643f9 0%, #1e5cfc 100%);
+  background: linear-gradient(135deg, #0b0f19 0%, #1a202c 100%);
 
   th.mat-mdc-header-cell {
     color: #ffffff;
@@ -69,6 +70,7 @@ tr.mat-mdc-header-row:first-of-type {
     letter-spacing: 0.9px;
     border-bottom: none;
     padding: 14px 16px;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
 
@@ -87,11 +89,11 @@ tr.mat-mdc-header-row:first-of-type {
 
 // ── Fila de filtros ────────────────────────────────────────────
 tr.filter-row {
-  background-color: #eef1fd;
+  background-color: #f5f7f9;
 
   th.mat-mdc-header-cell {
     padding: 8px 10px;
-    border-bottom: 2px solid rgba(6, 67, 249, 0.14);
+    border-bottom: 1px solid #eaecef;
   }
 }
 
@@ -100,28 +102,28 @@ tr.filter-row {
   align-items: center;
   gap: 8px;
   background: #ffffff;
-  border: 1px solid #ced4da;
+  border: 1px solid #eaecef;
   border-radius: 6px;
   padding: 6px 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:focus-within {
-    border-color: #0643f9;
-    box-shadow: 0 0 0 3px rgba(6, 67, 249, 0.15);
+    border-color: #0b0f19;
+    box-shadow: 0 0 0 3px rgba(11, 15, 25, 0.08);
   }
 
   .filter-icon {
     font-size: 16px;
     width: 16px;
     height: 16px;
-    color: #adb5bd;
+    color: #9ca3af;
     flex-shrink: 0;
     transition: color 0.2s ease;
   }
 
   &:focus-within .filter-icon {
-    color: #0643f9;
+    color: #0b0f19;
   }
 }
 
@@ -129,39 +131,40 @@ tr.filter-row {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 14px;
-  color: #333;
+  font-size: 13.5px;
+  color: #1f2937;
   width: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.5;
 
   &::placeholder {
-    color: #adb5bd;
+    color: #9ca3af;
   }
 }
 
 // ── Filas de datos ─────────────────────────────────────────────
 tr.mat-mdc-row {
-  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  transition: background-color 0.15s ease;
 
   &:nth-child(odd) {
     background-color: #ffffff;
   }
 
   &:nth-child(even) {
-    background-color: #f8f9ff;
+    background-color: #fafafa;
   }
 
   &:hover {
-    background-color: #eef1fd !important;
-    box-shadow: inset 4px 0 0 var(--primary-blue);
+    background-color: #f5f7f9 !important;
+    box-shadow: inset 3px 0 0 #0b0f19;
   }
 
   td.mat-mdc-cell {
-    font-size: 14px;
+    font-size: 13.5px;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-main);
     padding: 13px 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    border-bottom: 1px solid #eaecef;
   }
 }
 
@@ -188,12 +191,12 @@ td.actions-cell {
   transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease !important;
 
   &[data-color='primary'] {
-    background-color: rgba(6, 67, 249, 0.1) !important;
-    color: #0643f9 !important;
+    background-color: rgba(11, 15, 25, 0.07) !important;
+    color: #0b0f19 !important;
 
     &:hover {
-      background-color: rgba(6, 67, 249, 0.18) !important;
-      box-shadow: 0 2px 8px rgba(6, 67, 249, 0.28) !important;
+      background-color: rgba(11, 15, 25, 0.13) !important;
+      box-shadow: 0 2px 8px rgba(11, 15, 25, 0.15) !important;
       transform: translateY(-1px);
     }
   }
@@ -204,7 +207,7 @@ td.actions-cell {
 
     &:hover {
       background-color: rgba(211, 47, 47, 0.18) !important;
-      box-shadow: 0 2px 8px rgba(211, 47, 47, 0.28) !important;
+      box-shadow: 0 2px 8px rgba(211, 47, 47, 0.25) !important;
       transform: translateY(-1px);
     }
   }
@@ -215,7 +218,7 @@ td.actions-cell {
 
     &:hover {
       background-color: rgba(245, 124, 0, 0.18) !important;
-      box-shadow: 0 2px 8px rgba(245, 124, 0, 0.28) !important;
+      box-shadow: 0 2px 8px rgba(245, 124, 0, 0.25) !important;
       transform: translateY(-1px);
     }
   }
@@ -245,12 +248,13 @@ td.actions-cell {
   color: var(--text-muted);
   font-style: italic;
   font-size: 14px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 // ── Paginador ──────────────────────────────────────────────────
 :host ::ng-deep .mat-mdc-paginator {
-  background-color: #f4f6ff;
-  border-top: 1px solid rgba(6, 67, 249, 0.1);
+  background-color: #f5f7f9;
+  border-top: 1px solid #eaecef;
   border-radius: 0 0 12px 12px;
   color: var(--text-muted);
 }

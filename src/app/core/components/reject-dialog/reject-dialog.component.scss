@@ -1,8 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
 .dialog-wrapper {
   width: 440px;
   overflow: hidden;
   border-radius: 12px;
-  border-top: 6px solid #0643f9;
+  border-top: 6px solid #0b0f19;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  animation: dialogFadeIn 0.22s ease-out forwards;
+}
+
+@keyframes dialogFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .dialog-body {
@@ -24,7 +39,7 @@
 .icon-halo {
   position: absolute;
   inset: 0;
-  background-color: rgba(6, 67, 249, 0.1);
+  background-color: rgba(11, 15, 25, 0.1);
   border-radius: 50%;
   transform: scale(1.5);
   filter: blur(16px);
@@ -34,16 +49,16 @@
   position: relative;
   width: 96px;
   height: 96px;
-  background-color: rgba(6, 67, 249, 0.05);
+  background-color: rgba(11, 15, 25, 0.05);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(6, 67, 249, 0.2);
+  border: 1px solid rgba(11, 15, 25, 0.2);
 }
 
 .error-icon {
-  color: #0643f9;
+  color: #0b0f19;
   font-size: 56px;
   width: 56px;
   height: 56px;
@@ -51,6 +66,7 @@
 }
 
 .dialog-title {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 22px;
   font-weight: 700;
   color: #0f172a;
@@ -70,27 +86,28 @@
   display: flex;
   justify-content: center;
   padding: 20px 32px;
-  background-color: #f8fafc;
-  border-top: 1px solid #f1f5f9;
+  background-color: #f5f7f9;
+  border-top: 1px solid #eaecef;
 }
 
 .close-btn {
-  min-width: 140px;
+  width: 100%;
   height: 48px;
-  background-color: #0643f9 !important;
-  color: #fff !important;
+  background-color: #0b0f19 !important;
+  color: #f5f7f9 !important;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   font-weight: 600;
   border-radius: 8px;
-  box-shadow: 0 4px 14px rgba(6, 67, 249, 0.3);
-  padding: 0 32px;
-  transition: opacity 0.2s;
+  box-shadow: 0 4px 14px rgba(11, 15, 25, 0.2);
+  transition: all 0.2s ease;
 
   &:hover {
     opacity: 0.9;
+    transform: translateY(-1px);
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.97);
   }
 }

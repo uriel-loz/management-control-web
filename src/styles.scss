@@ -5,6 +5,8 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
 html {
   height: 100%;
   @include mat.theme(
@@ -39,28 +41,35 @@ body {
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  --primary-blue: #0643f9;
-  --primary-blue-dark: #0436cc;
-  --sidebar-bg: #0643f9;
-  --sidebar-hover: rgba(255, 255, 255, 0.1);
+  --primary-blue: #0b0f19;
+  --primary-blue-dark: #1a202c;
+  --sidebar-bg: #0b0f19;
+  --sidebar-hover: rgba(255, 255, 255, 0.05);
   --bg-color: #f5f7f9;
-  --text-main: #333333;
-  --text-muted: #666666;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
   --white: #ffffff;
-  --border-color: rgba(0, 0, 0, 0.12);
+  --border-color: #eaecef;
   --elevation-1:
-    0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    0px 2px 1px -1px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.04),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.08);
   --elevation-2:
-    0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    0px 3px 1px -2px rgba(0, 0, 0, 0.08), 0px 2px 2px 0px rgba(0, 0, 0, 0.06),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.1);
+
+  // Login / sidebar design tokens
+  --accent-primary: #06b6d4;
+  --accent-secondary: #0ea5e9;
+  --sidebar-text: #9ca3af;
+  --sidebar-text-active: #f9fafb;
+  --sidebar-border: rgba(55, 65, 81, 0.4);
 }
 body,
 html {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
 }
@@ -71,12 +80,13 @@ html {
   overflow: hidden;
 }
 .mat-sidenav {
-  width: 280px;
+  width: 260px;
   background-color: var(--sidebar-bg);
-  color: white;
+  color: var(--sidebar-text);
   display: flex;
   flex-direction: column;
-  box-shadow: var(--elevation-2);
+  border-right: 1px solid var(--sidebar-border);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.25);
   z-index: 10;
   height: 100vh;
   min-height: 100vh;
@@ -88,61 +98,79 @@ html {
   flex-direction: column;
 }
 .sidebar-header {
-  padding: 24px;
+  padding: 24px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 8px;
 }
 .sidebar-logo {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.2);
   border-radius: 8px;
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--accent-primary);
+  flex-shrink: 0;
 }
 .sidebar-title {
-  font-size: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
+  color: var(--sidebar-text-active);
   margin: 0;
+  line-height: 1.2;
 }
 .mat-nav-list {
   padding-top: 8px;
   flex: 1;
 }
 .mat-list-subheader {
-  padding: 24px 24px 8px 24px;
-  font-size: 11px;
+  padding: 20px 20px 6px 20px;
+  font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.1em;
+  color: #4b5563;
 }
 .mat-list-item {
   display: flex;
   align-items: center;
-  padding: 12px 24px;
-  color: rgba(255, 255, 255, 0.9);
+  padding: 10px 20px;
+  margin: 2px 12px;
+  border-radius: 8px;
+  color: var(--sidebar-text);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
-  transition: background 0.2s;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 .mat-list-item:hover {
   background-color: var(--sidebar-hover);
+  color: #d1d5db;
 }
 .mat-list-item.active {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background-color: rgba(6, 182, 212, 0.1);
+  color: var(--sidebar-text-active);
+  border-left: 2px solid var(--accent-primary);
+  padding-left: 18px;
+  margin-left: 12px;
 }
 .mat-list-item i {
-  margin-right: 16px;
-  font-size: 22px;
+  margin-right: 12px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.mat-list-item.active i {
+  color: var(--accent-primary);
 }
 .sidebar-footer {
-  padding: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 12px;
+  border-top: 1px solid var(--sidebar-border);
 }
 .user-profile {
   display: flex;
@@ -174,8 +202,8 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 0 28px;
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 5;
@@ -187,11 +215,23 @@ html {
 }
 .search-input {
   width: 100%;
-  background: #f1f3f4;
-  border: none;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
   padding: 10px 16px 10px 44px;
   border-radius: 8px;
   font-size: 14px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: #0b0f19;
+  }
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
 }
 .search-icon {
   position: absolute;
@@ -234,7 +274,8 @@ html {
   box-shadow: var(--elevation-1);
 }
 .dashboard-content {
-  padding: 32px;
+  padding: 28px 32px;
+  flex: 1;
 }
 .page-header {
   margin-bottom: 32px;
