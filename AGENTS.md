@@ -194,21 +194,49 @@ this.service.doSomething().subscribe({
 - `inlineStyleLanguage` is `scss`; do not use plain CSS files.
 - Angular Material theming is applied globally — use Material design tokens where possible.
 
+### Design tokens
+
+The active design system is defined in `src/styles.scss` (`:root`) and matches the login
+component (`landing/components/login/`) as the visual reference.
+
+| Token | Value | Usage |
+|---|---|---|
+| `--sidebar-bg` | `#0b0f19` | Sidebar background, primary button bg |
+| `--primary-blue` | `#0b0f19` | Legacy variable — now maps to brand dark |
+| `--bg-color` | `#f5f7f9` | Page/content background, primary button text |
+| `--border-color` | `#eaecef` | Borders, dividers, stroked button borders |
+| `--accent-primary` | `#06b6d4` | Cyan accent — active sidebar item, highlights |
+| `--accent-secondary` | `#0ea5e9` | Secondary cyan accent |
+| `--text-main` | `#1f2937` | Body text |
+| `--text-muted` | `#6b7280` | Secondary/muted text |
+| `--sidebar-text` | `#9ca3af` | Sidebar inactive text |
+| `--sidebar-text-active` | `#f9fafb` | Sidebar active text |
+
+Dialog-specific colors (not in `:root`): header gradient `#0b0f19 → #111827`, body bg `#f5f7f9`,
+title `#0f172a`, message text `#475569`.
+
+Fonts: **DM Sans** (body/UI), **JetBrains Mono** (brand/monospace). Both loaded via Google Fonts
+in `src/styles.scss`.
+
 ### Button conventions
 
 - **Confirmation / primary action buttons** (e.g. "Guardar", "Crear", "Marcar todos") must always
   use the following CSS, either via a shared class or the component's own `.scss`:
 
   ```scss
-  background-color: #0643f9 !important;
-  color: #fff !important;
+  background-color: #0b0f19 !important;
+  color: #f5f7f9 !important;
   ```
 
   Do **not** use `color="primary"` from Angular Material for these buttons — it resolves to the
-  Material theme palette color, which differs from the project's brand blue (`#0643f9`).
+  Material theme palette color, which differs from the project's brand dark (`#0b0f19`).
 
 - **Secondary / destructive buttons** (e.g. "Cancelar", "Eliminar", "Desmarcar todos") use
-  `mat-stroked-button` with the brand color applied to `color` and `border-color`.
+  `mat-stroked-button` with `border-color: #eaecef`. Destructive actions use `color: #d32f2f`;
+  secondary/neutral actions use `color: #0b0f19`.
+
+- **Utility buttons** (e.g. "Actualizar", "Exportar CSV") keep the Angular Material background
+  and use `color: #0b0f19` for text and icon overrides via `:host ::ng-deep`.
 
 ---
 

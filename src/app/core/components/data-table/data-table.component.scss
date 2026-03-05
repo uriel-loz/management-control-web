@@ -26,6 +26,18 @@
   gap: 10px;
 }
 
+// ── Botones Actualizar / Exportar CSV — texto negro ────────────
+:host ::ng-deep {
+  .actions-left button[color='primary'],
+  .actions-left button[color='accent'] {
+    color: #0b0f19 !important;
+
+    .mat-icon {
+      color: #0b0f19 !important;
+    }
+  }
+}
+
 .btn-create {
   background-color: #0b0f19 !important;
   color: #f5f7f9 !important;
