@@ -1,47 +1,76 @@
 <div class="login-container">
-  <div class="left-panel">
-    <div class="content">
-      <mat-icon class="logo-icon">bar_chart</mat-icon>
-      <h1 class="title">Management Control</h1>
-      <p class="description">
-        Controla, analiza y optimiza todos tus procesos de negocio desde una sola plataforma.
-      </p>
+  <div class="grid-background"></div>
 
-      <div class="features">
-        <div class="feature-item">
-          <mat-icon>shield</mat-icon>
-          <span>Seguridad empresarial</span>
+  <div class="left-panel">
+    <div class="panel-content">
+      <div class="brand-section">
+        <div class="logo-container">
+          <mat-icon class="logo-icon">assessment</mat-icon>
+          <div class="logo-text">
+            <span class="logo-main">MANAGEMENT</span>
+            <span class="logo-sub">CONTROL SYSTEM</span>
+          </div>
         </div>
-        <div class="feature-item">
-          <mat-icon>bar_chart</mat-icon>
-          <span>Analytics en tiempo real</span>
-        </div>
-        <div class="feature-item">
-          <mat-icon>group</mat-icon>
-          <span>Gestión de equipos</span>
+      </div>
+
+      <div class="info-section">
+        <h1 class="main-heading">Enterprise Resource Planning</h1>
+        <p class="main-description">
+          Sistema integral de gestión empresarial con análisis en tiempo real,
+          control financiero y automatización de procesos de negocio.
+        </p>
+
+        <div class="metrics">
+          <div class="metric-item">
+            <div class="metric-icon">
+              <mat-icon>verified_user</mat-icon>
+            </div>
+            <div class="metric-text">
+              <span class="metric-label">Seguridad</span>
+              <span class="metric-value">Encriptación AES-256</span>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-icon">
+              <mat-icon>speed</mat-icon>
+            </div>
+            <div class="metric-text">
+              <span class="metric-label">Rendimiento</span>
+              <span class="metric-value">99.9% Uptime SLA</span>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-icon">
+              <mat-icon>cloud_done</mat-icon>
+            </div>
+            <div class="metric-text">
+              <span class="metric-label">Infraestructura</span>
+              <span class="metric-value">Cloud Enterprise</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="right-panel">
-    <div class="form-container">
-      <h2 class="welcome-title">Bienvenido</h2>
-      <p class="welcome-subtitle">Inicia sesión en tu cuenta</p>
+    <div class="form-wrapper">
+      <div class="form-header">
+        <h2 class="form-title">Iniciar Sesión</h2>
+        <p class="form-subtitle">Accede a tu panel de control</p>
+      </div>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-        <mat-form-field appearance="outline" class="full-width">
+        <mat-form-field appearance="outline" class="form-field">
           <mat-label>Correo electrónico</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="nombre@empresa.com" />
-          <mat-icon matPrefix>mail</mat-icon>
-          @if (loginForm.get('email')?.invalid) {
-            <mat-error>
-              {{ getErrorMessage('email') }}
-            </mat-error>
+          <input matInput type="email" formControlName="email" placeholder="usuario@empresa.com" />
+          <mat-icon matPrefix>mail_outline</mat-icon>
+          @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+            <mat-error>{{ getErrorMessage('email') }}</mat-error>
           }
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
+        <mat-form-field appearance="outline" class="form-field">
           <mat-label>Contraseña</mat-label>
           <input
             matInput
@@ -49,46 +78,52 @@
             formControlName="password"
             placeholder="••••••••"
           />
-          <mat-icon matPrefix>lock</mat-icon>
+          <mat-icon matPrefix>lock_outline</mat-icon>
           <button
             mat-icon-button
             matSuffix
             type="button"
             (click)="hidePassword = !hidePassword"
-            [attr.aria-label]="'Hide password'"
+            [attr.aria-label]="'Mostrar contraseña'"
             [attr.aria-pressed]="hidePassword"
           >
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          @if (loginForm.get('password')?.invalid) {
-            <mat-error>
-              {{ getErrorMessage('password') }}
-            </mat-error>
+          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+            <mat-error>{{ getErrorMessage('password') }}</mat-error>
           }
         </mat-form-field>
 
-        <div class="form-actions">
-          <mat-checkbox formControlName="rememberMe" color="primary"> Recordarme </mat-checkbox>
-          <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+        <div class="form-options">
+          <mat-checkbox formControlName="rememberMe" color="primary">
+            Recordar sesión
+          </mat-checkbox>
+          <a href="#" class="link-forgot">¿Olvidaste tu contraseña?</a>
         </div>
 
         <button
           mat-raised-button
           color="primary"
           type="submit"
-          class="submit-button"
+          class="btn-submit"
           [disabled]="loginForm.invalid || isLoading()"
         >
           @if (!isLoading()) {
             <span>Iniciar Sesión</span>
+            <mat-icon>arrow_forward</mat-icon>
           } @else {
-            <span class="loading-container">
-              <mat-spinner diameter="20" color="accent"></mat-spinner>
-              <span class="loading-text">Iniciando sesión...</span>
-            </span>
+            <mat-spinner diameter="20"></mat-spinner>
+            <span>Autenticando...</span>
           }
         </button>
       </form>
+
+      <div class="form-footer">
+        <div class="security-info">
+          <mat-icon>shield</mat-icon>
+          <span>Conexión segura SSL/TLS</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
