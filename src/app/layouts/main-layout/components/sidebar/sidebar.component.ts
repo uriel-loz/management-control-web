@@ -1,7 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ModuleService } from '../../services/module.service';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -12,8 +10,5 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Sidebar {
   private moduleService = inject(ModuleService);
-  sections = toSignal(
-    this.moduleService.getModulesByUser().pipe(
-      map(response => response.data)
-    ), { initialValue: [] });
+  sections = computed(() => this.moduleService.modulesResource.value()?.data ?? []);
 }

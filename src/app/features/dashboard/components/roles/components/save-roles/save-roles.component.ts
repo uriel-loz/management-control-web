@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RolesStateService } from '../../services/roles-state.service';
 import { ApiService } from '../../services/api.service';
 import { NotificationService } from '../../../../../../core/services/notification.service';
+import { ModuleService } from '../../../../../../layouts/main-layout/services/module.service';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -15,6 +16,7 @@ export class SaveRoles {
   private rolesStateService = inject(RolesStateService);
   private readonly snackbarService = inject(NotificationService);
   private apiService = inject(ApiService);
+  private moduleService = inject(ModuleService);
 
   readonly isLoading = signal(false);
 
@@ -36,6 +38,7 @@ export class SaveRoles {
         next: () => {
           this.snackbarService.success('Operación realizada exitosamente.');
           this.rolesStateService.rolesResource.reload();
+          this.moduleService.modulesResource.reload();
         },
         error: (error: { error?: { message?: string } }) => {
           const message = error.error?.message || 'Error al guardar el rol.';
