@@ -1,15 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../../features/landing/services/auth.service';
 import { NotificationService } from '../services/notification.service';
 import { catchError, map, of } from 'rxjs';
+import { AuthCheckService } from '../services/auth-check.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
+  const authCheckService = inject(AuthCheckService);
   const router = inject(Router);
   const snackbarService = inject(NotificationService);
 
-  return authService.isAuthenticated().pipe(
+  return authCheckService.isAuthenticated().pipe(
     map(isAuth => {
       if (isAuth) {
         return true;

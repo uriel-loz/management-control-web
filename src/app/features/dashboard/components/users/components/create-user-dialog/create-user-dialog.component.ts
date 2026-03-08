@@ -76,8 +76,8 @@ export class CreateUserDialogComponent {
   });
 
   readonly customerOptions = [
-    { label: 'Usuario', value: 0 },
-    { label: 'Administrador', value: 1 },
+    { label: 'Customer', value: 0 },
+    { label: 'Admin', value: 1 },
   ];
 
   constructor() {
