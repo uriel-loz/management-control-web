@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environments';
-import { UserTable, CreateUserRequest } from '../interfaces/users-table.interface';
+import { UserTable, CreateUserRequest, UpdateUserRequest } from '../interfaces/users-table.interface';
 import { ApiResponseNoData } from '../../../../../core/interfaces/api-response.interface';
 
 @Injectable({
@@ -31,6 +31,14 @@ export class ApiService {
 
   createUser(payload: CreateUserRequest): Observable<ApiResponseNoData> {
     return this.http.post<ApiResponseNoData>(`${this.baseUrl}/api/v1/admin/users`, payload);
+  }
+
+  updateUser(id: string, payload: UpdateUserRequest): Observable<ApiResponseNoData> {
+    return this.http.put<ApiResponseNoData>(`${this.baseUrl}/api/v1/admin/users/${id}`, payload);
+  }
+
+  deleteUser(id: string): Observable<ApiResponseNoData> {
+    return this.http.delete<ApiResponseNoData>(`${this.baseUrl}/api/v1/admin/users/${id}`);
   }
 
 }

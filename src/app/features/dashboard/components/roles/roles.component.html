@@ -1,5 +1,5 @@
-<core-card-structure 
-  title="Roles y permisos" 
+<core-card-structure
+  title="Roles y permisos"
   description="Administra los roles y permisos de los usuarios"
 >
   <form>
@@ -43,14 +43,18 @@
       <!-- Columna derecha -->
       @if (stateService.selectedRole()) {
         <div class="right-column">
-          <h3>Permisos</h3>
-          <div class="buttons-row">
-            <roles-uncheck-all />
-            <roles-check-all />
+          <div class="permissions-header">
+            <span class="permissions-title">Permisos</span>
+            <div class="header-actions">
+              <roles-uncheck-all />
+              <roles-check-all />
+            </div>
           </div>
+
           <div class="permissions-scroll">
             <roles-permissions />
           </div>
+
           <div class="save-row">
             <roles-save-roles />
           </div>

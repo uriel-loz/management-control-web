@@ -7,6 +7,8 @@ import { TableAction } from '../../../../core/interfaces/table-action.interface'
 import { ApiService } from './services/api.service';
 import { User } from './interfaces/users-table.interface';
 import { CreateUserDialogComponent } from './components/create-user-dialog/create-user-dialog.component';
+import { ConfirmDialogComponent } from '../../../../core/components/confirm-dialog/confirm-dialog.component';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'dashboard-users',
@@ -38,8 +40,9 @@ export class Users implements OnInit {
   private filters: Record<string, string> = {};
   private sortColumn  = 'users.updated_at';
   private sortDir: 'asc' | 'desc' = 'desc';
-  private apiService = inject(ApiService);
-  private dialog     = inject(MatDialog);
+  private apiService   = inject(ApiService);
+  private dialog       = inject(MatDialog);
+  private notification = inject(NotificationService);
   titleReport = 'Reporte de Usuarios';
 
   constructor() {}
@@ -65,12 +68,33 @@ export class Users implements OnInit {
   onAction(event: { action: string; row: User }): void {
     switch (event.action) {
       case 'edit':
-        // TODO: abrir dialog de edición
-        console.log('edit', event.row);
+        this.dialog.open(CreateUserDialogComponent, { data: { user: event.row } })
+          .afterClosed().subscribe({
+            next: (updated) => { if (updated) this.loadUsers(); },
+          });
         break;
       case 'delete':
-        // TODO: abrir dialog de confirmación y eliminar
-        console.log('delete', event.row);
+        this.dialog.open(ConfirmDialogComponent, {
+          panelClass: 'notification-dialog-panel',
+          data: {
+            message: `¿Estás seguro de que deseas eliminar al usuario "${event.row['name']}"?\nEsta acción no se puede deshacer.`,
+          },
+        }).afterClosed().subscribe({
+          next: (confirmed: boolean) => {
+            if (!confirmed) return;
+            this.apiService.deleteUser(event.row['id']).subscribe({
+              next: () => {
+                this.notification.success('Usuario eliminado exitosamente.');
+                this.loadUsers();
+              },
+              error: (error: { error?: { message?: string } }) => {
+                const message = error.error?.message || 'Error al eliminar el usuario.';
+                this.notification.error(message);
+                console.error(error);
+              },
+            });
+          },
+        });
         break;
     }
   }

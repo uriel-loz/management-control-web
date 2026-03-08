@@ -1,34 +1,118 @@
-.section-block {
+// ── Tokens locales ──────────────────────────────────────────────────────────
+// Surface del bloque de sección: blanco limpio sobre el fondo #f5f7f9 del canvas
+// Cabecera de sección: #0b0f19 — el mismo "brand dark" que el sidebar y los
+// botones primarios, así las secciones de autorización se leen como "capas de
+// control" y no como agrupadores decorativos.
+// Borde de tarjeta: rgba sutil — define sin gritar.
+
+.section-card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+
+  & + .section-card {
+    margin-top: 12px;
+  }
+}
+
+// ── Cabecera de sección ──────────────────────────────────────────────────────
+.section-header {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #0b0f19;
 }
 
-.section-title {
-  font-weight: 700;
-  font-size: 14px;
-  margin: 0;
-  color: var(--mat-sys-on-surface, #111);
+.section-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f9fafb;
 }
 
-.section-divider {
-  margin: 12px 0;
+// Badge de conteo — usa el cyan de acento para comunicar "activos"
+.section-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: #06b6d4;
+  letter-spacing: 0.02em;
 }
 
-.module-block {
+// ── Filas de módulo ──────────────────────────────────────────────────────────
+.modules-list {
+  padding: 4px 0;
+}
+
+.module-row {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+  &.last {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.015);
+  }
 }
 
 .module-name {
+  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: var(--mat-sys-on-surface-variant, #555);
-  margin: 0;
+  font-weight: 500;
+  color: #1f2937;
+  min-width: 140px;
+  flex-shrink: 0;
 }
 
-.permissions-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px 0;
+// ── Chips de permiso ─────────────────────────────────────────────────────────
+// Inactivo: solo borde — presencia mínima, el permiso existe pero no está asignado.
+// Activo: fondo #0b0f19, texto blanco — autorización concedida, sin ambigüedad.
+// El mismo lenguaje visual que los botones primarios del sistema.
+
+.permission-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.perm-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid #eaecef;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  white-space: nowrap;
+  line-height: 1.5;
+
+  &:hover:not(.active) {
+    border-color: #0b0f19;
+    color: #0b0f19;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #06b6d4;
+    outline-offset: 2px;
+  }
+
+  &.active {
+    background: #0b0f19;
+    border-color: #0b0f19;
+    color: #f9fafb;
+  }
 }

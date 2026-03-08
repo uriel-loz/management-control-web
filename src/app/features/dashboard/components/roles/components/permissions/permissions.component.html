@@ -1,22 +1,27 @@
-@for (section of sectionsModules(); track section.id; let last = $last) {
-  <div class="section-block">
-    <h4 class="section-title">{{ section.name }}</h4>
-    @for (module of section.modules; track module.id) {
-      <div class="module-block">
-        <p class="module-name">{{ module.name }}</p>
-        <div class="permissions-grid" id="{{ module.id }}">
-          @for (permission of module.permissions || []; track permission.id) {
-            <mat-checkbox
-              [checked]="isChecked(permission.id)"
-              (change)="onPermissionToggle(permission.id, $event.checked, module.permissions || [])"
-            >{{ permission.name }}
-            </mat-checkbox>
-          }
+@for (section of sectionsModules(); track section.id) {
+  <div class="section-card">
+    <div class="section-header">
+      <span class="section-name">{{ section.name }}</span>
+      <span class="section-count">{{ sectionActiveCount(section) }} activos</span>
+    </div>
+
+    <div class="modules-list">
+      @for (module of section.modules; track module.id; let last = $last) {
+        <div class="module-row" [class.last]="last">
+          <span class="module-name">{{ module.name }}</span>
+          <div class="permission-chips">
+            @for (permission of sortedPermissions(module.permissions || []); track permission.id) {
+              <button
+                type="button"
+                class="perm-chip"
+                [class.active]="isChecked(permission.id)"
+                [attr.aria-pressed]="isChecked(permission.id)"
+                (click)="onPermissionToggle(permission.id, !isChecked(permission.id), module.permissions || [])"
+              >{{ permissionLabel(permission.slug) }}</button>
+            }
+          </div>
         </div>
-      </div>
-    }
+      }
+    </div>
   </div>
-  @if (!last) {
-    <mat-divider class="section-divider" />
-  }
 }
