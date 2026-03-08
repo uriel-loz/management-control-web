@@ -8,7 +8,6 @@ import { ApiService } from './services/api.service';
 import { User } from './interfaces/users-table.interface';
 import { CreateUserDialogComponent } from './components/create-user-dialog/create-user-dialog.component';
 import { ConfirmDialogComponent } from '../../../../core/components/confirm-dialog/confirm-dialog.component';
-import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'dashboard-users',
@@ -42,7 +41,6 @@ export class Users implements OnInit {
   private sortDir: 'asc' | 'desc' = 'desc';
   private apiService   = inject(ApiService);
   private dialog       = inject(MatDialog);
-  private notification = inject(NotificationService);
   titleReport = 'Reporte de Usuarios';
 
   constructor() {}
@@ -78,21 +76,13 @@ export class Users implements OnInit {
           panelClass: 'notification-dialog-panel',
           data: {
             message: `¿Estás seguro de que deseas eliminar al usuario "${event.row['name']}"?\nEsta acción no se puede deshacer.`,
+            action: () => this.apiService.deleteUser(event.row['id']),
+            successMessage: 'Usuario eliminado exitosamente.',
+            errorMessage: 'Error al eliminar el usuario.',
           },
         }).afterClosed().subscribe({
           next: (confirmed: boolean) => {
-            if (!confirmed) return;
-            this.apiService.deleteUser(event.row['id']).subscribe({
-              next: () => {
-                this.notification.success('Usuario eliminado exitosamente.');
-                this.loadUsers();
-              },
-              error: (error: { error?: { message?: string } }) => {
-                const message = error.error?.message || 'Error al eliminar el usuario.';
-                this.notification.error(message);
-                console.error(error);
-              },
-            });
+            if (confirmed) this.loadUsers();
           },
         });
         break;
@@ -119,9 +109,15 @@ export class Users implements OnInit {
   }
 
   private loadUsers(): void {
-    this.apiService.getUsers(this.currentPage, this.pageSize, this.filters, this.sortColumn, this.sortDir).subscribe(response => {
-      this.data.set(response.data);
-      this.total.set(response.total);
-    });
+    this.apiService.getUsers(
+        this.currentPage,
+        this.pageSize,
+        this.filters,
+        this.sortColumn,
+        this.sortDir
+      ).subscribe(response => {
+        this.data.set(response.data);
+        this.total.set(response.total);
+      });
   }
 }

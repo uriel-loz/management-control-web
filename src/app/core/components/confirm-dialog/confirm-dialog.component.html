@@ -1,6 +1,6 @@
 <div class="dialog-wrapper">
   <!-- Botón cerrar -->
-  <button class="close-btn" mat-icon-button (click)="cancel()">
+  <button class="close-btn" mat-icon-button type="button" (click)="cancel()" [disabled]="isLoading()">
     <mat-icon>close</mat-icon>
   </button>
 
@@ -8,23 +8,34 @@
   <div class="dialog-header">
     <div class="dot-pattern"></div>
     <div class="icon-circle">
-      <mat-icon class="warning-icon">warning_amber</mat-icon>
+      @if (isLoading()) {
+        <mat-spinner diameter="40" class="header-spinner"></mat-spinner>
+      } @else {
+        <mat-icon class="warning-icon">warning_amber</mat-icon>
+      }
     </div>
   </div>
 
   <!-- Contenido -->
   <div class="dialog-body">
-    <h2 class="dialog-title">{{ title }}</h2>
-    <p class="dialog-message">{{ message }}</p>
+    <h2 class="dialog-title">{{ isLoading() ? 'Procesando...' : title }}</h2>
+    <p class="dialog-message">{{ isLoading() ? 'Por favor espera mientras se procesa la operación.' : message }}</p>
   </div>
 
   <!-- Footer con acciones -->
   <div class="dialog-footer">
-    <button mat-stroked-button class="cancel-btn" type="button" (click)="cancel()">
+    <button mat-stroked-button class="cancel-btn" type="button" (click)="cancel()" [disabled]="isLoading()">
       Cancelar
     </button>
-    <button mat-flat-button class="confirm-btn" type="button" (click)="confirm()">
-      Confirmar
+    <button mat-flat-button class="confirm-btn" type="button" (click)="confirm()" [disabled]="isLoading()">
+      @if (isLoading()) {
+        <span class="btn-content">
+          <mat-spinner diameter="16" class="btn-spinner"></mat-spinner>
+          <span>Procesando...</span>
+        </span>
+      } @else {
+        <span>Confirmar</span>
+      }
     </button>
   </div>
 </div>

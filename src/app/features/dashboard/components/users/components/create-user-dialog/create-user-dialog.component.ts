@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ApiService as UsersApiService } from '../../services/api.service';
 import { ApiService as RolesApiService } from '../../../roles/services/api.service';
 import { NotificationService } from '../../../../../../core/services/notification.service';
@@ -40,6 +41,7 @@ const optionalMinLength =
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
   ],
   templateUrl: './create-user-dialog.component.html',
@@ -64,7 +66,10 @@ export class CreateUserDialogComponent {
       nonNullable: true,
       validators: [Validators.required, Validators.email],
     }),
-    phone: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    phone: new FormControl('', { 
+      nonNullable: true, 
+      validators: [Validators.required, Validators.pattern(/^\d{10}$/)] 
+    }),
     password: new FormControl('', { nonNullable: true, validators: [] }),
     role_id: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     is_customer: new FormControl<number | null>(null, { validators: [Validators.required] }),

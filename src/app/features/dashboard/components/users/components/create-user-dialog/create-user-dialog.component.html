@@ -27,9 +27,17 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Teléfono</mat-label>
-          <input matInput formControlName="phone" placeholder="Ej: +1 234 567 8900" autocomplete="off" />
+          <input 
+            matInput 
+            formControlName="phone" 
+            placeholder="Ej: 5555555555" 
+            autocomplete="off"
+            maxlength="10"
+          />
           @if (form.get('phone')!.hasError('required')) {
             <mat-error>El teléfono es requerido.</mat-error>
+          } @else if (form.get('phone')!.hasError('pattern')) {
+            <mat-error>El teléfono debe tener 10 dígitos.</mat-error>
           }
         </mat-form-field>
       </div>
@@ -91,10 +99,13 @@
       Cancelar
     </button>
     <button mat-flat-button class="save-btn" type="button" (click)="save()" [disabled]="isLoading()">
-      @if (isEditMode()) {
-        {{ isLoading() ? 'Guardando...' : 'Guardar' }}
+      @if (isLoading()) {
+        <span class="btn-content">
+          <mat-spinner diameter="16" class="btn-spinner"></mat-spinner>
+          <span>{{ isEditMode() ? 'Guardando...' : 'Creando...' }}</span>
+        </span>
       } @else {
-        {{ isLoading() ? 'Creando...' : 'Crear usuario' }}
+        <span>{{ isEditMode() ? 'Guardar' : 'Crear usuario' }}</span>
       }
     </button>
   </div>
