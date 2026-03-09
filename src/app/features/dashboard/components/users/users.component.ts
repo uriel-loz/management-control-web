@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CardStructure } from '../../../../core/components/card-structure/card-structure.component';
 import { CoreDataTable, TablePageEvent, TableFilterEvent, TableSortEvent } from '../../../../core/components/data-table/data-table.component';
@@ -8,6 +8,7 @@ import { ApiService } from './services/api.service';
 import { User } from './interfaces/users-table.interface';
 import { CreateUserDialogComponent } from './components/create-user-dialog/create-user-dialog.component';
 import { ConfirmDialogComponent } from '../../../../core/components/confirm-dialog/confirm-dialog.component';
+import { PermissionsService } from '../../../../core/services/permissions.service';
 
 @Component({
   selector: 'dashboard-users',
@@ -16,17 +17,26 @@ import { ConfirmDialogComponent } from '../../../../core/components/confirm-dial
   styleUrl: './users.component.scss',
 })
 export class Users implements OnInit {
-  readonly actions: TableAction[] = [
-    { key: 'edit',   icon: 'edit',   tooltip: 'Editar',   color: 'primary' },
-    { key: 'delete', icon: 'delete', tooltip: 'Eliminar', color: 'warn'    },
-  ];
+  private readonly permissions = inject(PermissionsService);
+  private readonly userPermissions = this.permissions.forModule('users');
+
+  readonly canCreate = computed(() => this.userPermissions().includes('users.create'));
+  private readonly canEdit   = computed(() => this.userPermissions().includes('users.update'));
+  private readonly canDelete = computed(() => this.userPermissions().includes('users.delete'));
+
+  readonly actions = computed<TableAction[]>(() => {
+    const list: TableAction[] = [];
+    if (this.canEdit())   list.push({ key: 'edit',   icon: 'edit',   tooltip: 'Editar',   color: 'primary' });
+    if (this.canDelete()) list.push({ key: 'delete', icon: 'delete', tooltip: 'Eliminar', color: 'warn'    });
+    return list;
+  });
 
   readonly columns: TableColumn[] = [
     { key: 'name',       header: 'Nombre',      dbField: 'users.name' },
     { key: 'email',      header: 'Correo',       dbField: 'users.email' },
     { key: 'phone',      header: 'Teléfono',     dbField: 'users.phone' },
     { key: 'role',       header: 'Rol',          dbField: 'roles.name' },
-    { key: 'type',       header: 'Tipo',         dbField: 'users.is_customer'},
+    { key: 'type',       header: 'Tipo',         dbField: 'users.is_customer' },
     { key: 'created_at', header: 'Creado',       dbField: 'users.created_at' },
     { key: 'updated_at', header: 'Actualizado',  dbField: 'users.updated_at' },
   ];
@@ -39,11 +49,9 @@ export class Users implements OnInit {
   private filters: Record<string, string> = {};
   private sortColumn  = 'users.updated_at';
   private sortDir: 'asc' | 'desc' = 'desc';
-  private apiService   = inject(ApiService);
-  private dialog       = inject(MatDialog);
+  private readonly apiService = inject(ApiService);
+  private readonly dialog     = inject(MatDialog);
   titleReport = 'Reporte de Usuarios';
-
-  constructor() {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -59,7 +67,7 @@ export class Users implements OnInit {
     this.dialog.open(CreateUserDialogComponent).afterClosed().subscribe({
       next: (created) => {
         if (created) this.loadUsers();
-      }
+      },
     });
   }
 
@@ -110,14 +118,14 @@ export class Users implements OnInit {
 
   private loadUsers(): void {
     this.apiService.getUsers(
-        this.currentPage,
-        this.pageSize,
-        this.filters,
-        this.sortColumn,
-        this.sortDir
-      ).subscribe(response => {
-        this.data.set(response.data);
-        this.total.set(response.total);
-      });
+      this.currentPage,
+      this.pageSize,
+      this.filters,
+      this.sortColumn,
+      this.sortDir,
+    ).subscribe(response => {
+      this.data.set(response.data);
+      this.total.set(response.total);
+    });
   }
 }
