@@ -105,7 +105,7 @@
           <mat-checkbox formControlName="rememberMe" color="primary">
             Recordar sesión
           </mat-checkbox>
-          <a href="#" class="link-forgot">¿Olvidaste tu contraseña?</a>
+          <a [routerLink]="['/recovery-password']" class="link-forgot">¿Olvidaste tu contraseña?</a>
         </div>
 
         <button

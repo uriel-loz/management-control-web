@@ -35,4 +35,15 @@ export class AuthService {
       })
     );
   }
+
+  recoverPassword(email: string): Observable<ApiResponseNoData> {
+    return this.getCsrfCookie().pipe(
+      switchMap(() => {
+        return this.http.post<ApiResponseNoData>(
+          `${this.baseUrl}/api/v1/auth/forgot-password`,
+          { email }
+        );
+      })
+    );
+  }
 }

@@ -6,6 +6,10 @@ export const routes: Routes = [
         loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
     },
     {
+        path: 'recovery-password',
+        loadComponent: () => import('./components/recovery-password/recovery-password.component').then(m => m.RecoveryPasswordComponent)
+    },
+    {
         path: '**',
         redirectTo: ''
     }

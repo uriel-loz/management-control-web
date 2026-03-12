@@ -8,6 +8,10 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     {
+        path: 'recovery-password',
+        loadComponent: () => import('./features/landing/components/recovery-password/recovery-password.component').then(m => m.RecoveryPasswordComponent)
+    },
+    {
         path: 'dashboard',
         canActivate: [authGuard],
         loadComponent: () => import('./layouts/main-layout/main-layout.component').then(m => m.MainLayout),
