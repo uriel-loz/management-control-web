@@ -1,0 +1,157 @@
+<div class="dialog-wrapper">
+  <button class="close-btn" mat-icon-button type="button" (click)="cancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="dialog-header">
+    <div class="header-icon">
+      <mat-icon>inventory_2</mat-icon>
+    </div>
+    <div class="header-text">
+      <span class="header-title">{{ isEditMode() ? 'Editar producto' : 'Crear producto' }}</span>
+      <span class="header-sub">{{ isEditMode() ? 'Modifica los datos del producto' : 'Completa los campos para registrar un nuevo producto' }}</span>
+    </div>
+  </div>
+
+  <mat-dialog-content>
+    <form [formGroup]="form" class="form-grid">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" placeholder="Ej: Camiseta Básica Unisex" autocomplete="off" />
+        @if (form.get('name')!.hasError('required')) {
+          <mat-error>El nombre es requerido.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Slug</mat-label>
+        <input matInput formControlName="slug" placeholder="camiseta-basica-unisex" autocomplete="off" />
+        <mat-hint>Se genera automáticamente a partir del nombre.</mat-hint>
+        @if (form.get('slug')!.hasError('required')) {
+          <mat-error>El slug es requerido.</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Precio</mat-label>
+          <input matInput formControlName="price" placeholder="19.99" autocomplete="off" />
+          <span matTextPrefix>$&nbsp;</span>
+          @if (form.get('price')!.hasError('required')) {
+            <mat-error>El precio es requerido.</mat-error>
+          } @else if (form.get('price')!.hasError('pattern')) {
+            <mat-error>Ingresa un precio válido (ej: 19.99).</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Stock</mat-label>
+          <input matInput type="number" formControlName="quantity" placeholder="0" autocomplete="off" min="0" />
+          @if (form.get('quantity')!.hasError('required')) {
+            <mat-error>El stock es requerido.</mat-error>
+          } @else if (form.get('quantity')!.hasError('min')) {
+            <mat-error>El stock no puede ser negativo.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="description" rows="3"
+          placeholder="Describe el producto..." autocomplete="off"></textarea>
+        @if (form.get('description')!.hasError('required')) {
+          <mat-error>La descripción es requerida.</mat-error>
+        }
+      </mat-form-field>
+
+    </form>
+
+    <!-- ── Sección de imágenes ────────────────────────────────────────────── -->
+    <div class="images-section">
+      <div class="images-header">
+        <mat-icon class="images-icon">photo_library</mat-icon>
+        <div class="images-header-text">
+          <span class="images-title">Imágenes del producto</span>
+          <span class="images-hint">La primera imagen será la portada principal</span>
+        </div>
+      </div>
+
+      <!-- Input oculto para selección de archivos -->
+      <input
+        #fileInput
+        type="file"
+        multiple
+        accept="image/*"
+        class="file-input-hidden"
+        (change)="onFilesSelected($event)"
+      />
+
+      <div class="images-grid">
+
+        <!-- Imagen principal existente (solo modo edición, sin imágenes nuevas) -->
+        @if (isEditMode() && existingImageUrl() && newImages().length === 0) {
+          <div class="image-thumb existing-thumb">
+            <img [src]="existingImageUrl()!" alt="Imagen actual" />
+            <span class="badge-portada">Portada</span>
+            <span class="existing-label">Actual</span>
+          </div>
+        }
+
+        <!-- Imágenes nuevas seleccionadas -->
+        @for (img of newImages(); track img.objectUrl; let i = $index) {
+          <div class="image-thumb" [class.is-main]="i === 0">
+            <img [src]="img.objectUrl" [alt]="img.file.name" />
+            @if (i === 0) {
+              <span class="badge-portada">Portada</span>
+            }
+            <button
+              type="button"
+              class="btn-remove-img"
+              (click)="removeNewImage(i)"
+              [matTooltip]="'Eliminar imagen'"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+
+        <!-- Botón agregar imágenes -->
+        <button
+          type="button"
+          class="btn-add-images"
+          (click)="fileInput.click()"
+          [matTooltip]="'Seleccionar imágenes'"
+        >
+          <mat-icon>add_photo_alternate</mat-icon>
+          <span>Agregar<br>imágenes</span>
+        </button>
+
+      </div>
+
+      @if (newImages().length > 0) {
+        <p class="images-count-hint">
+          {{ newImages().length }} {{ newImages().length === 1 ? 'imagen seleccionada' : 'imágenes seleccionadas' }}
+          — arrastra para reordenar (próximamente)
+        </p>
+      }
+    </div>
+
+  </mat-dialog-content>
+
+  <div class="dialog-footer">
+    <button mat-stroked-button class="cancel-btn" type="button" (click)="cancel()" [disabled]="isLoading()">
+      Cancelar
+    </button>
+    <button mat-flat-button class="save-btn" type="button" (click)="save()" [disabled]="isLoading()">
+      @if (isLoading()) {
+        <span class="btn-content">
+          <mat-spinner diameter="16" class="btn-spinner"></mat-spinner>
+          <span>{{ isEditMode() ? 'Guardando...' : 'Creando...' }}</span>
+        </span>
+      } @else {
+        <span>{{ isEditMode() ? 'Guardar' : 'Crear producto' }}</span>
+      }
+    </button>
+  </div>
+</div>

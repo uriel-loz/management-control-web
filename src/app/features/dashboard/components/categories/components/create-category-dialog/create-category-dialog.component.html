@@ -1,0 +1,59 @@
+<div class="dialog-wrapper">
+  <button class="close-btn" mat-icon-button type="button" (click)="cancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="dialog-header">
+    <div class="header-icon">
+      <mat-icon>category</mat-icon>
+    </div>
+    <div class="header-text">
+      <span class="header-title">{{ isEditMode() ? 'Editar categoría' : 'Crear categoría' }}</span>
+      <span class="header-sub">{{ isEditMode() ? 'Modifica los datos de la categoría' : 'Completa los campos para registrar una nueva categoría' }}</span>
+    </div>
+  </div>
+
+  <mat-dialog-content>
+    <form [formGroup]="form" class="form-grid">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" placeholder="Ej: Electrónica" autocomplete="off" />
+        @if (form.get('name')!.hasError('required')) {
+          <mat-error>El nombre es requerido.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea
+          matInput
+          formControlName="description"
+          placeholder="Ej: Dispositivos, gadgets y accesorios electrónicos"
+          rows="3"
+          autocomplete="off"
+        ></textarea>
+        @if (form.get('description')!.hasError('required')) {
+          <mat-error>La descripción es requerida.</mat-error>
+        }
+      </mat-form-field>
+
+    </form>
+  </mat-dialog-content>
+
+  <div class="dialog-footer">
+    <button mat-stroked-button class="cancel-btn" type="button" (click)="cancel()" [disabled]="isLoading()">
+      Cancelar
+    </button>
+    <button mat-flat-button class="save-btn" type="button" (click)="save()" [disabled]="isLoading()">
+      @if (isLoading()) {
+        <span class="btn-content">
+          <mat-spinner diameter="16" class="btn-spinner"></mat-spinner>
+          <span>{{ isEditMode() ? 'Guardando...' : 'Creando...' }}</span>
+        </span>
+      } @else {
+        <span>{{ isEditMode() ? 'Guardar' : 'Crear categoría' }}</span>
+      }
+    </button>
+  </div>
+</div>

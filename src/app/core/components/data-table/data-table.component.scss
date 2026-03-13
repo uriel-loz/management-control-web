@@ -253,6 +253,17 @@ td.actions-cell {
   }
 }
 
+// ── Columna de imagen (thumbnail) ─────────────────────────────
+.table-thumbnail {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #eaecef;
+  display: block;
+  background-color: #f5f7f9;
+}
+
 // ── Sin resultados ─────────────────────────────────────────────
 .no-data-cell {
   text-align: center;

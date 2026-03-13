@@ -22,13 +22,6 @@ export const routes: Routes = [
                     import('../../features/dashboard/components/roles/roles.component').then(m => m.Roles),
             },
             {
-                path: 'notifications',
-                loadComponent: () =>
-                    import('../../features/dashboard/components/notifications/notifications.component').then(
-                        m => m.Notifications,
-                    ),
-            },
-            {
                 path: 'products',
                 loadComponent: () =>
                     import('../../features/dashboard/components/products/products.component').then(
@@ -44,6 +37,13 @@ export const routes: Routes = [
                 path: 'sales',
                 loadComponent: () =>
                     import('../../features/dashboard/components/sales/sales.component').then(m => m.Sales),
+            },
+            {
+                path: 'categories',
+                loadComponent: () =>
+                    import('../../features/dashboard/components/categories/categories.component').then(
+                        m => m.Categories,
+                    ),
             },
             {
                 path: '',
