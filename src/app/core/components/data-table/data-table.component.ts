@@ -21,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { Fancybox } from '@fancyapps/ui';
 
 import { TableColumn } from '../../interfaces/table-column.interface';
 import { TableRow } from '../../interfaces/table-row.interface';
@@ -202,6 +203,34 @@ export class CoreDataTable<T extends TableRow> implements AfterViewInit, OnChang
 
   onActionClick(key: string, row: T): void {
     this.actionClick.emit({ action: key, row });
+  }
+
+  openImageGallery(clickedSrc: string, colKey: string): void {
+    // Buscar el campo de texto más representativo de la fila para usar como caption
+    const captionKey = this.columns.find(
+      (c) => c.type !== 'image' && c.filterable !== false
+    )?.key;
+
+    const slides = this.dataSource.data
+      .filter((row) => !!row[colKey])
+      .map((row) => ({
+        src: String(row[colKey]),
+        thumbSrc: String(row[colKey]),
+        type: 'image' as const,
+        caption: captionKey ? String(row[captionKey]) : undefined,
+      }));
+
+    const startIndex = slides.findIndex((s) => s.src === clickedSrc);
+
+    Fancybox.show(slides, {
+      startIndex: startIndex >= 0 ? startIndex : 0,
+      theme: 'dark',
+      Carousel: {
+        Thumbs: {
+          type: 'modern',
+        },
+      },
+    });
   }
 
   exportToCsv(): void {

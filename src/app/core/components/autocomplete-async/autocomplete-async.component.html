@@ -1,0 +1,37 @@
+<mat-form-field appearance="outline" class="autocomplete-field">
+  <mat-label>{{ label() }}</mat-label>
+
+  <input
+    matInput
+    [formControl]="searchControl"
+    [matAutocomplete]="auto"
+    [placeholder]="placeholder()"
+    (blur)="onBlur()"
+    autocomplete="off"
+  />
+
+  <!-- Spinner mientras carga / chevron cuando está idle -->
+  @if (isLoading()) {
+    <mat-spinner matSuffix diameter="16" class="suffix-spinner" />
+  } @else {
+    <mat-icon matSuffix class="suffix-icon">expand_more</mat-icon>
+  }
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayFn"
+    (optionSelected)="onOptionSelected($event.option.value)"
+  >
+    @for (option of results(); track option[valueField()]) {
+      <mat-option [value]="option">
+        {{ option[displayField()] }}
+      </mat-option>
+    }
+
+    @if (showEmpty() && !isLoading()) {
+      <mat-option disabled class="no-results">
+        <span class="no-results-text">Sin resultados</span>
+      </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

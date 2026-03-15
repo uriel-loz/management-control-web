@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environments';
 import {
   ProductTable,
-  CreateProductRequest,
   CreateProductResponse,
-  UpdateProductRequest,
+  ProductRequest,
 } from '../interfaces/products.interface';
 import { ApiResponseNoData } from '../../../../../core/interfaces/api-response.interface';
 
@@ -32,11 +31,11 @@ export class ApiService {
       .get<ProductTable>(`${this.baseUrl}/api/v1/admin/products`, { params });
   }
 
-  createProduct(payload: CreateProductRequest): Observable<CreateProductResponse> {
+  createProduct(payload: ProductRequest): Observable<CreateProductResponse> {
     return this.http.post<CreateProductResponse>(`${this.baseUrl}/api/v1/admin/products`, payload);
   }
 
-  updateProduct(id: string, payload: UpdateProductRequest): Observable<ApiResponseNoData> {
+  updateProduct(id: string, payload: ProductRequest): Observable<ApiResponseNoData> {
     return this.http.put<ApiResponseNoData>(`${this.baseUrl}/api/v1/admin/products/${id}`, payload);
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environments';
-import { CategoryTable, CreateCategoryRequest, UpdateCategoryRequest } from '../interfaces/categories.interface';
+import { CategoryResponse, CategoryTable, CreateCategoryRequest, UpdateCategoryRequest } from '../interfaces/categories.interface';
 import { ApiResponseNoData } from '../../../../../core/interfaces/api-response.interface';
 
 @Injectable({
@@ -33,6 +33,10 @@ export class ApiService {
 
     return this.http
       .get<CategoryTable>(`${this.baseUrl}/api/v1/admin/categories`, { params });
+  }
+
+  listCategories(): Observable<CategoryResponse> {
+    return this.http.get<CategoryResponse>(`${this.baseUrl}/api/v1/admin/categories/all`);
   }
 
   createCategory(payload: CreateCategoryRequest): Observable<ApiResponseNoData> {

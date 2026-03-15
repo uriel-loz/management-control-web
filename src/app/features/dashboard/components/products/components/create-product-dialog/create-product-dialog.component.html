@@ -24,14 +24,6 @@
         }
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Slug</mat-label>
-        <input matInput formControlName="slug" placeholder="camiseta-basica-unisex" autocomplete="off" />
-        <mat-hint>Se genera automáticamente a partir del nombre.</mat-hint>
-        @if (form.get('slug')!.hasError('required')) {
-          <mat-error>El slug es requerido.</mat-error>
-        }
-      </mat-form-field>
 
       <div class="field-row">
         <mat-form-field appearance="outline">
@@ -64,6 +56,35 @@
           <mat-error>La descripción es requerida.</mat-error>
         }
       </mat-form-field>
+
+      <div class="categories-field">
+        <app-autocomplete-static
+          [formControl]="categorySearchControl"
+          [options]="availableCategories()"
+          displayField="name"
+          valueField="id"
+          label="Categorías"
+          placeholder="Buscar categoría..."
+        />
+
+        @if (selectedCategories().length > 0) {
+          <div class="category-tags">
+            @for (cat of selectedCategories(); track cat.id) {
+              <span class="category-tag">
+                <span class="category-tag-label">{{ cat.name }}</span>
+                <button
+                  type="button"
+                  class="category-tag-remove"
+                  (click)="removeCategory(cat.id)"
+                  [matTooltip]="'Eliminar ' + cat.name"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              </span>
+            }
+          </div>
+        }
+      </div>
 
     </form>
 

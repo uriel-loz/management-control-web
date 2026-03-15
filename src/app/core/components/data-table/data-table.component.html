@@ -35,11 +35,23 @@
         </th>
         <td mat-cell *matCellDef="let row">
           @if (col.type === 'image') {
-            <img class="table-thumbnail"
-              [src]="(col.imageBaseUrl ?? '') + row[col.key]"
-              [alt]="col.header"
-              loading="lazy"
-            />
+            <button
+              type="button"
+              class="img-trigger"
+              (click)="openImageGallery(row[col.key], col.key)"
+              [matTooltip]="'Ver imágenes'"
+              matTooltipPosition="above"
+            >
+              <img
+                class="table-thumbnail"
+                [src]="row[col.key]"
+                [alt]="col.header"
+                loading="lazy"
+              />
+              <span class="img-trigger-overlay" aria-hidden="true">
+                <mat-icon>zoom_in</mat-icon>
+              </span>
+            </button>
           } @else {
             {{ (row)[col.key] }}
           }

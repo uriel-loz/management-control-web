@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.autocomplete-field {
+  width: 100%;
+}
+
+.suffix-spinner {
+  margin-right: 4px;
+}
+
+.suffix-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.54));
+}
+
+.no-results-text {
+  color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.54));
+  font-style: italic;
+  font-size: 0.875rem;
+}

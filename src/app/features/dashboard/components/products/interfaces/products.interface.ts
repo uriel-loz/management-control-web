@@ -25,18 +25,10 @@ export type ProductTable = ResponseTable<Product>;
 /** Tipo de retorno de POST /api/v1/admin/products — incluye el producto creado con su id */
 export type CreateProductResponse = ApiResponse<Product>;
 
-export interface CreateProductRequest {
+export interface ProductRequest {
   name: string;
-  slug: string;
   price: string;
   quantity: number;
   description: string;
-}
-
-export interface UpdateProductRequest {
-  name: string;
-  slug: string;
-  price: string;
-  quantity: number;
-  description: string;
+  categories: string[];
 }

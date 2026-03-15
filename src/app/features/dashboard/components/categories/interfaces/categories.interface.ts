@@ -1,3 +1,4 @@
+import { ApiResponse } from '../../../../../core/interfaces/api-response.interface';
 import { ResponseTable } from '../../../../../core/interfaces/table-response.interface';
 
 export interface Category extends Record<string, string | number> {
@@ -21,3 +22,5 @@ export interface UpdateCategoryRequest {
   name: string;
   description: string;
 }
+
+export type CategoryResponse = ApiResponse<Category>;

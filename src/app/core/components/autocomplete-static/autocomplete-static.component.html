@@ -1,0 +1,31 @@
+<mat-form-field appearance="outline" class="autocomplete-field">
+  <mat-label>{{ label() }}</mat-label>
+
+  <input
+    matInput
+    [formControl]="searchControl"
+    [matAutocomplete]="auto"
+    [placeholder]="placeholder()"
+    (blur)="onBlur()"
+    autocomplete="off"
+  />
+
+  <mat-icon matSuffix class="suffix-icon">expand_more</mat-icon>
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="onOptionSelected($event.option.value)"
+  >
+    <div (mousedown)="onPanelMousedown($event)">
+      @for (option of filteredOptions(); track option[valueField()]) {
+        <mat-option [value]="option">
+          {{ option[displayField()] }}
+        </mat-option>
+      } @empty {
+        <mat-option disabled class="no-results">
+          <span class="no-results-text">Sin resultados</span>
+        </mat-option>
+      }
+    </div>
+  </mat-autocomplete>
+</mat-form-field>

@@ -50,7 +50,6 @@ export class Products implements OnInit {
       key: 'main_image',
       header: 'Imagen',
       type: 'image',
-      imageBaseUrl: `${environment.baseUrl}/storage/`,
       sortable: false,
       filterable: false,
     },
