@@ -1,0 +1,132 @@
+<div class="dialog-wrapper">
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <button class="close-btn" mat-icon-button type="button" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="dialog-header">
+    <div class="header-icon">
+      <mat-icon>receipt_long</mat-icon>
+    </div>
+    <div class="header-text">
+      <span class="header-title">Detalle de orden</span>
+      <span class="header-sub">Orden #{{ getShortId(order.id) }}</span>
+    </div>
+    <div class="header-badge" [style.background]="getOrderStatus(order.status).bg"
+      [style.color]="getOrderStatus(order.status).text"
+      [style.border-color]="getOrderStatus(order.status).border">
+      <mat-icon class="badge-icon">{{ getOrderStatus(order.status).icon }}</mat-icon>
+      <span>{{ getOrderStatus(order.status).label }}</span>
+    </div>
+  </div>
+
+  <!-- ── Contenido ──────────────────────────────────────────────────────── -->
+  <mat-dialog-content>
+
+    <!-- Cliente + fechas -->
+    <div class="section">
+      <div class="section-label">
+        <mat-icon>person</mat-icon>
+        <span>Cliente</span>
+      </div>
+      <div class="client-row">
+        <div class="client-avatar">{{ order.user.name.charAt(0).toUpperCase() }}</div>
+        <div class="client-info">
+          <span class="client-name">{{ order.user.name }}</span>
+          <span class="client-email">{{ order.user.email }}</span>
+        </div>
+        <div class="dates-block">
+          <div class="date-item">
+            <span class="date-label">Creado</span>
+            <span class="date-value">{{ order.created_at }}</span>
+          </div>
+          <div class="date-item">
+            <span class="date-label">Actualizado</span>
+            <span class="date-value">{{ order.updated_at }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Productos -->
+    <div class="section">
+      <div class="section-label">
+        <mat-icon>inventory_2</mat-icon>
+        <span>Productos ({{ order.total_products }})</span>
+      </div>
+
+      <div class="products-table">
+        <div class="products-header">
+          <span class="col-name">Producto</span>
+          <span class="col-qty">Cant.</span>
+          <span class="col-price">P. unitario</span>
+          <span class="col-sub">Subtotal</span>
+        </div>
+        @for (product of order.products; track product.id) {
+          <div class="product-row">
+            <span class="col-name product-name">{{ product.name }}</span>
+            <span class="col-qty">{{ product.pivot.quantity }}</span>
+            <span class="col-price">{{ product.pivot.unit_price | currency:'USD':'symbol':'1.2-2' }}</span>
+            <span class="col-sub product-subtotal">{{ product.pivot.subtotal | currency:'USD':'symbol':'1.2-2' }}</span>
+          </div>
+        }
+        <div class="products-total-row">
+          <span class="total-label">Total de la orden</span>
+          <span class="total-value">{{ order.total_price | currency:'USD':'symbol':'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Pago -->
+    <div class="section">
+      <div class="section-label">
+        <mat-icon>payments</mat-icon>
+        <span>Información de pago</span>
+      </div>
+
+      @if (order.payment) {
+        <div class="payment-row">
+          <div class="payment-item">
+            <span class="payment-item-label">Método</span>
+            <span class="payment-item-value">{{ getPaymentMethodLabel(order.payment.method) }}</span>
+          </div>
+          <div class="payment-item">
+            <span class="payment-item-label">Estado</span>
+            <span class="status-badge"
+              [style.background]="getPaymentStatus(order.payment.status).bg"
+              [style.color]="getPaymentStatus(order.payment.status).text"
+              [style.border-color]="getPaymentStatus(order.payment.status).border">
+              <mat-icon class="badge-icon">{{ getPaymentStatus(order.payment.status).icon }}</mat-icon>
+              {{ getPaymentStatus(order.payment.status).label }}
+            </span>
+          </div>
+          <div class="payment-item">
+            <span class="payment-item-label">Monto</span>
+            <span class="payment-item-value payment-amount">
+              {{ order.payment.quantity | currency:'USD':'symbol':'1.2-2' }}
+            </span>
+          </div>
+        </div>
+      } @else {
+        <div class="no-payment">
+          <mat-icon>info_outline</mat-icon>
+          <span>Sin información de pago registrada</span>
+        </div>
+      }
+    </div>
+
+  </mat-dialog-content>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+  <div class="dialog-footer">
+    <button mat-flat-button class="close-action-btn" type="button" (click)="close()">
+      Cerrar
+    </button>
+  </div>
+
+</div>
