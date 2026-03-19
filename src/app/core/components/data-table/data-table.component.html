@@ -52,6 +52,20 @@
                 <mat-icon>zoom_in</mat-icon>
               </span>
             </button>
+          } @else if (col.type === 'badge' && col.badgeMap) {
+            @if (col.badgeMap[row[col.key]!]) {
+              <span class="cell-badge"
+                [style.background]="col.badgeMap[row[col.key]!].bg"
+                [style.color]="col.badgeMap[row[col.key]!].text"
+                [style.border-color]="col.badgeMap[row[col.key]!].border">
+                @if (col.badgeMap[row[col.key]!].icon) {
+                  <mat-icon class="cell-badge-icon">{{ col.badgeMap[row[col.key]!].icon }}</mat-icon>
+                }
+                {{ col.badgeMap[row[col.key]!].label }}
+              </span>
+            } @else {
+              {{ row[col.key] }}
+            }
           } @else {
             {{ (row)[col.key] }}
           }

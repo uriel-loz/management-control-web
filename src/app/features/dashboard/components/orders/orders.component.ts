@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from '../../../../core/components/confirm-dial
 import { ApiService } from './services/api.service';
 import { Order } from './interfaces/orders.interface';
 import { OrderDetailDialogComponent } from './components/order-detail-dialog/order-detail-dialog.component';
+import { ORDER_STATUS_MAP } from '../../../../core/utils/status-maps';
 
 interface OrderRow extends Record<string, string | number | boolean | null | undefined> {
   id: string;
@@ -33,14 +34,13 @@ export class Orders implements OnInit {
   private readonly dialog     = inject(MatDialog);
 
   readonly columns: TableColumn[] = [
-    { key: 'user',           header: 'Cliente',         sortable: false, filterable: false },
-    { key: 'status',         header: 'Estado',          dbField: 'orders.status'           },
-    { key: 'total_products', header: 'Productos',       dbField: 'orders.total_products'   },
-    { key: 'total_price',    header: 'Total',           dbField: 'orders.total_price'      },
+    { key: 'user',           header: 'Cliente',         sortable: false, filterable: false                                                  },
+    { key: 'status',         header: 'Estado',          dbField: 'orders.status',   type: 'badge', badgeMap: ORDER_STATUS_MAP              },
+    { key: 'total_products', header: 'Productos',       dbField: 'orders.total_products'                                                   },
+    { key: 'total_price',    header: 'Total',           dbField: 'orders.total_price'                                                      },
     { key: 'payment_method', header: 'Método de pago',  sortable: false, filterable: false },
-    { key: 'payment_status', header: 'Estado del pago', sortable: false, filterable: false },
-    { key: 'created_at',     header: 'Creado',          dbField: 'orders.created_at'       },
-    { key: 'updated_at',     header: 'Actualizado',     dbField: 'orders.updated_at'       },
+    { key: 'created_at',     header: 'Creado',          dbField: 'orders.created_at'                                                       },
+    { key: 'updated_at',     header: 'Actualizado',     dbField: 'orders.updated_at'                                                       },
   ];
 
   readonly actions: TableAction[] = [

@@ -314,6 +314,27 @@ td.actions-cell {
   }
 }
 
+// ── Badge de estado ──────────────────────────────────────────────
+.cell-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.cell-badge-icon {
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+}
+
 // ── Sin resultados ─────────────────────────────────────────────
 .no-data-cell {
   text-align: center;

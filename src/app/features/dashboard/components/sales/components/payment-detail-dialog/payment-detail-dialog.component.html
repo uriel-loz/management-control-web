@@ -1,0 +1,128 @@
+<div class="dialog-wrapper">
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <button class="close-btn" mat-icon-button type="button" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="dialog-header">
+    <div class="header-icon">
+      <mat-icon>payments</mat-icon>
+    </div>
+    <div class="header-text">
+      <span class="header-title">Detalle de pago</span>
+      <span class="header-sub">Pago #{{ getShortId(payment.id) }}</span>
+    </div>
+    <div class="header-badge"
+      [style.background]="getPaymentStatus(payment.status).bg"
+      [style.color]="getPaymentStatus(payment.status).text"
+      [style.border-color]="getPaymentStatus(payment.status).border">
+      <mat-icon class="badge-icon">{{ getPaymentStatus(payment.status).icon }}</mat-icon>
+      <span>{{ getPaymentStatus(payment.status).label }}</span>
+    </div>
+  </div>
+
+  <!-- ── Contenido ──────────────────────────────────────────────────────── -->
+  <mat-dialog-content>
+
+    <!-- Información del pago -->
+    <div class="section">
+      <div class="section-label">
+        <mat-icon>credit_card</mat-icon>
+        <span>Información del pago</span>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Método</span>
+          <span class="info-value">{{ getPaymentMethodLabel(payment.method) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Estado</span>
+          <span class="status-badge"
+            [style.background]="getPaymentStatus(payment.status).bg"
+            [style.color]="getPaymentStatus(payment.status).text"
+            [style.border-color]="getPaymentStatus(payment.status).border">
+            <mat-icon class="badge-icon">{{ getPaymentStatus(payment.status).icon }}</mat-icon>
+            {{ getPaymentStatus(payment.status).label }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Monto</span>
+          <span class="info-value info-amount">{{ payment.quantity | currency:'USD':'symbol':'1.2-2' }}</span>
+        </div>
+      </div>
+
+      <div class="dates-row">
+        <div class="date-item">
+          <span class="date-label">Creado</span>
+          <span class="date-value">{{ payment.created_at }}</span>
+        </div>
+        <div class="date-item">
+          <span class="date-label">Actualizado</span>
+          <span class="date-value">{{ payment.updated_at }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Orden asociada -->
+    <div class="section">
+      <div class="section-label">
+        <mat-icon>receipt_long</mat-icon>
+        <span>Orden asociada</span>
+      </div>
+
+      <div class="order-card">
+        <div class="order-card-header">
+          <div class="order-id-block">
+            <span class="order-id-label">ID de orden</span>
+            <span class="order-id-value">#{{ getShortId(payment.order.id) }}</span>
+          </div>
+          <span class="status-badge"
+            [style.background]="getOrderStatus(payment.order.status).bg"
+            [style.color]="getOrderStatus(payment.order.status).text"
+            [style.border-color]="getOrderStatus(payment.order.status).border">
+            <mat-icon class="badge-icon">{{ getOrderStatus(payment.order.status).icon }}</mat-icon>
+            {{ getOrderStatus(payment.order.status).label }}
+          </span>
+        </div>
+        <div class="order-card-stats">
+          <div class="stat-item">
+            <span class="stat-label">Total</span>
+            <span class="stat-value">{{ payment.order.total_price | currency:'USD':'symbol':'1.2-2' }}</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-label">Productos</span>
+            <span class="stat-value">{{ payment.order.total_products }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-dialog-content>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+  <div class="dialog-footer">
+    <button mat-stroked-button class="view-order-btn" type="button"
+      (click)="openOrderDetail()" [disabled]="isLoadingOrder()">
+      @if (isLoadingOrder()) {
+        <span class="btn-content">
+          <mat-spinner diameter="14" class="btn-spinner"></mat-spinner>
+          <span>Cargando...</span>
+        </span>
+      } @else {
+        <span class="btn-content">
+          <mat-icon>open_in_new</mat-icon>
+          <span>Ver orden completa</span>
+        </span>
+      }
+    </button>
+    <button mat-flat-button class="close-action-btn" type="button" (click)="close()">
+      Cerrar
+    </button>
+  </div>
+
+</div>

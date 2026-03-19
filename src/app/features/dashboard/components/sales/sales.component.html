@@ -1,1 +1,18 @@
-<p>sales.component works!</p>
+<core-card-structure title="Ventas" description="Pagos registrados en el sistema">
+  <core-data-table
+    [columns]="columns"
+    [data]="data()"
+    [actions]="actions"
+    [serverSide]="true"
+    [total]="total()"
+    [showAllOption]="true"
+    sortActive="updated_at"
+    sortDirection="desc"
+    (refresh)="onRefresh()"
+    (pageChange)="onPageChange($event)"
+    (filterChange)="onFilterChange($event)"
+    (sortChange)="onSortChange($event)"
+    (actionClick)="onAction($event)"
+    titleReport="{{ titleReport }}"
+  ></core-data-table>
+</core-card-structure>
