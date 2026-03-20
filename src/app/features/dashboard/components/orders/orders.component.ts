@@ -1,4 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CardStructure } from '../../../../core/components/card-structure/card-structure.component';
 import { CoreDataTable, TableFilterEvent, TablePageEvent, TableSortEvent } from '../../../../core/components/data-table/data-table.component';
@@ -89,22 +91,37 @@ export class Orders implements OnInit {
     this.loadOrders();
   }
 
-  onAction(event: { action: string; row: TableRow }): void {
+  orderDetails(orderId: string): Observable<Order> {
+    return this.apiService.getOrderById(orderId).pipe(map(response => response.data));
+  }
+
+  async onAction(event: { action: string; row: TableRow }): Promise<void> {
     const row = event.row as OrderRow;
-    const original = this.originalOrders.find(o => o.id === row.id);
 
     switch (event.action) {
       case 'detail':
-        if (original) {
+        try {
+          const original = await firstValueFrom(this.orderDetails(row.id));
           this.dialog.open(OrderDetailDialogComponent, {
             data: original,
             panelClass: 'notification-dialog-panel',
           });
+        } catch {
+          this.dialog.open(ConfirmDialogComponent, {
+            panelClass: 'notification-dialog-panel',
+            data: {
+              title: 'Error',
+              message: 'No se pudo cargar el detalle de la orden.',
+              action: () => {},
+              successMessage: '',
+              errorMessage: '',
+            },
+          });
         }
         break;
 
-      case 'cancel':
-        this.dialog.open(ConfirmDialogComponent, {
+      case 'cancel': {
+        const cancelRef = this.dialog.open(ConfirmDialogComponent, {
           panelClass: 'notification-dialog-panel',
           data: {
             title: 'Cancelar orden',
@@ -113,11 +130,14 @@ export class Orders implements OnInit {
             successMessage: 'Orden cancelada exitosamente.',
             errorMessage: 'Error al cancelar la orden.',
           },
-        }).afterClosed().subscribe({ next: (confirmed: boolean) => { if (confirmed) this.loadOrders(); } });
+        });
+        const cancelConfirmed = await firstValueFrom(cancelRef.afterClosed());
+        if (cancelConfirmed) this.loadOrders();
         break;
+      }
 
-      case 'delete':
-        this.dialog.open(ConfirmDialogComponent, {
+      case 'delete': {
+        const deleteRef = this.dialog.open(ConfirmDialogComponent, {
           panelClass: 'notification-dialog-panel',
           data: {
             title: 'Eliminar orden',
@@ -126,8 +146,11 @@ export class Orders implements OnInit {
             successMessage: 'Orden eliminada exitosamente.',
             errorMessage: 'Error al eliminar la orden.',
           },
-        }).afterClosed().subscribe({ next: (confirmed: boolean) => { if (confirmed) this.loadOrders(); } });
+        });
+        const deleteConfirmed = await firstValueFrom(deleteRef.afterClosed());
+        if (deleteConfirmed) this.loadOrders();
         break;
+      }
     }
   }
 

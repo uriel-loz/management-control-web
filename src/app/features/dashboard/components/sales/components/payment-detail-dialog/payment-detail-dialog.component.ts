@@ -5,9 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CurrencyPipe } from '@angular/common';
 import { Payment } from '../../interfaces/sales.interface';
-import { ApiService } from '../../services/api.service';
 import { OrderDetailDialogComponent } from '../../../orders/components/order-detail-dialog/order-detail-dialog.component';
 import { NotificationService } from '../../../../../../core/services/notification.service';
+import { ApiService } from '../../../orders/services/api.service';
 import {
   StatusConfig,
   getOrderStatus,

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environments';
 import { OrderTable } from '../interfaces/orders.interface';
 import { ApiResponseNoData } from '../../../../../core/interfaces/api-response.interface';
+import { OrderDetailResponse } from '../../sales/interfaces/sales.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -24,6 +25,10 @@ export class ApiService {
       params[`filters[${key}]`] = value;
     });
     return this.http.get<OrderTable>(`${this.baseUrl}/api/v1/admin/orders`, { params });
+  }
+
+  getOrderById(id: string): Observable<OrderDetailResponse> {
+    return this.http.get<OrderDetailResponse>(`${this.baseUrl}/api/v1/admin/orders/${id}`);
   }
 
   cancelOrder(id: string): Observable<ApiResponseNoData> {

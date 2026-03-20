@@ -13,10 +13,14 @@ export interface OrderProductPivot {
 }
 
 export interface OrderProduct {
+  pivot: OrderProductPivot;
+}
+
+export interface Product {
   id: string;
   name: string;
   price: string;
-  pivot: OrderProductPivot;
+  orders: OrderProduct[];
 }
 
 export interface OrderPayment {
@@ -36,7 +40,7 @@ export interface Order extends Record<string, unknown> {
   created_at: string;
   updated_at: string;
   user: OrderUser;
-  products: OrderProduct[];
+  products: Product[];
   payment: OrderPayment | null;
 }
 

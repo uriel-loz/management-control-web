@@ -68,9 +68,9 @@
         @for (product of order.products; track product.id) {
           <div class="product-row">
             <span class="col-name product-name">{{ product.name }}</span>
-            <span class="col-qty">{{ product.pivot.quantity }}</span>
-            <span class="col-price">{{ product.pivot.unit_price | currency:'USD':'symbol':'1.2-2' }}</span>
-            <span class="col-sub product-subtotal">{{ product.pivot.subtotal | currency:'USD':'symbol':'1.2-2' }}</span>
+            <span class="col-qty">{{ product.orders[0].pivot.quantity }}</span>
+            <span class="col-price">{{ product.orders[0].pivot.unit_price | currency:'USD':'symbol':'1.2-2' }}</span>
+            <span class="col-sub product-subtotal">{{ product.orders[0].pivot.subtotal | currency:'USD':'symbol':'1.2-2' }}</span>
           </div>
         }
         <div class="products-total-row">
